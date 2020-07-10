@@ -29,5 +29,5 @@ def build() -> None:
     """
 
     build_host = ""
-    build_cmd = f"make -j{BUILDJOBS}"
+    build_cmd = f"make -j{BUILDJOBS} tarxz-pkg"
     do_build(build_host, build_cmd)
