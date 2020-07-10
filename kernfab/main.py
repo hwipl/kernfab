@@ -3,7 +3,7 @@ Main part of kernfab
 """
 
 import argparse
-from kernfab import build
+from kernfab import build, install
 
 VERSION = "0.1"
 
@@ -15,6 +15,15 @@ def _build(_args) -> None:
 
     print("Build kernel")
     build.build()
+
+
+def _install(_args) -> None:
+    """
+    Install kernel
+    """
+
+    print("Install kernel")
+    install.install()
 
 
 def _parse_args() -> None:
@@ -36,6 +45,10 @@ def _parse_args() -> None:
     # create the parser for the "build" command
     parser_build = subparsers.add_parser("build", help="build kernel")
     parser_build.set_defaults(func=_build)
+
+    # create the parser for the "install" command
+    parser_install = subparsers.add_parser("install", help="install kernel")
+    parser_install.set_defaults(func=_install)
 
     # parse arguments and call subcommand functions
     args = parser.parse_args()
