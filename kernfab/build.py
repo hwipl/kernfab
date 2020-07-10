@@ -5,6 +5,9 @@ Module for building the kernel
 import invoke
 from fabric import Connection
 
+# number of simultaneous build jobs to run
+BUILDJOBS = 32
+
 
 def do_build(host: str, cmd: str) -> None:
     """
@@ -26,5 +29,5 @@ def build() -> None:
     """
 
     build_host = ""
-    build_cmd = f"make -j16"
+    build_cmd = f"make -j{BUILDJOBS}"
     do_build(build_host, build_cmd)
