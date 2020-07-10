@@ -3,8 +3,8 @@ Module for creating virtual machine images and
 running virtual machines with qemu
 """
 
-import invoke
-from fabric import Connection
+import invoke                   # type: ignore
+from fabric import Connection   # type: ignore
 
 # name of qemu executable
 QEMU = "qemu-system-x86_64"

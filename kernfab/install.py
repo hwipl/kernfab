@@ -2,8 +2,8 @@
 Module for installing the kernel
 """
 
-import invoke
-from fabric import Connection
+import invoke                   # type: ignore
+from fabric import Connection   # type: ignore
 
 
 def do_install(host: str, cmd: str) -> None:

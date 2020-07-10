@@ -2,8 +2,8 @@
 Module for building the kernel
 """
 
-import invoke
-from fabric import Connection
+import invoke                   # type: ignore
+from fabric import Connection   # type: ignore
 
 # number of simultaneous build jobs to run
 BUILDJOBS = 32
