@@ -3,24 +3,10 @@ Module for creating virtual machine images and
 running virtual machines with qemu
 """
 
-import invoke                   # type: ignore
-from fabric import Connection   # type: ignore
+from kernfab import run
 
 # name of qemu executable
 QEMU = "qemu-system-x86_64"
-
-
-def _run_cmd(host: str, cmd: str) -> None:
-    """
-    Run a command
-    """
-
-    cmd = f"bash -l -c \"{cmd}\""
-    if host == "":
-        invoke.run(cmd, warn=True)
-    else:
-        conn = Connection(host)
-        conn.run(cmd, warn=True)
 
 
 def create_base_image() -> None:
@@ -33,7 +19,7 @@ def create_base_image() -> None:
     file_name = "qemu-base.img"
     file_size = "20G"
     image_cmd = f"qemu-img create -f {file_format} {file_name} {file_size}"
-    _run_cmd(image_host, image_cmd)
+    run.run_cmd(image_host, image_cmd)
 
 
 def create_sub_image() -> None:
@@ -45,7 +31,7 @@ def create_sub_image() -> None:
     base_image = "qemu-base.img"
     file_name = "qemu-sub.img"
     image_cmd = f"qemu-img create -b {base_image} {file_name}"
-    _run_cmd(image_host, image_cmd)
+    run.run_cmd(image_host, image_cmd)
 
 
 def run_vm():
@@ -65,4 +51,4 @@ def run_vm():
         "-device virtio-rng-pci, rng=rng0 " \
         "-monitor unix:vm0.sock,server,nowait"
     vm_cmd = f"{QEMU} {options}"
-    _run_cmd(host, vm_cmd)
+    run.run_cmd(host, vm_cmd)

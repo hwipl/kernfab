@@ -2,22 +2,7 @@
 Module for installing the kernel
 """
 
-import invoke                   # type: ignore
-from fabric import Connection   # type: ignore
-
-
-def do_install(host: str, cmd: str) -> None:
-    """
-    Run install cmd
-    """
-
-    # run build command
-    cmd = f"bash -l -c \"{cmd}\""
-    if host == "":
-        invoke.run(cmd, warn=True)
-    else:
-        conn = Connection(host)
-        conn.run(cmd, warn=True)
+from kernfab import run
 
 
 def install() -> None:
@@ -27,4 +12,4 @@ def install() -> None:
 
     install_host = ""
     install_cmd = ""
-    do_install(install_host, install_cmd)
+    run.run_cmd(install_host, install_cmd)
