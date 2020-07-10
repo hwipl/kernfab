@@ -23,16 +23,28 @@ def _run_cmd(host: str, cmd: str) -> None:
         conn.run(cmd, warn=True)
 
 
-def create_image() -> None:
+def create_base_image() -> None:
     """
-    Create an vm image
+    Create a base vm image
     """
 
     image_host = ""
     file_format = "qcow2"
-    file_name = "qemu.img"
+    file_name = "qemu-base.img"
     file_size = "20G"
     image_cmd = f"qemu-img create -f {file_format} {file_name} {file_size}"
+    _run_cmd(image_host, image_cmd)
+
+
+def create_sub_image() -> None:
+    """
+    Create a sub vm image that is based on a base image
+    """
+
+    image_host = ""
+    base_image = "qemu-base.img"
+    file_name = "qemu-sub.img"
+    image_cmd = f"qemu-img create -b {base_image} {file_name}"
     _run_cmd(image_host, image_cmd)
 
 
