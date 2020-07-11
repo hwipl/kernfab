@@ -6,14 +6,15 @@ import invoke                   # type: ignore
 from fabric import Connection   # type: ignore
 
 
-def run_cmd(host: str, cmd: str) -> None:
+def run_cmd(host: str, cmd: str) -> str:
     """
     Run a command
     """
 
     cmd = f"bash -l -c \"{cmd}\""
     if host == "":
-        invoke.run(cmd, warn=True)
+        result = invoke.run(cmd, warn=True)
     else:
         conn = Connection(host)
-        conn.run(cmd, warn=True)
+        result = conn.run(cmd, warn=True)
+    return result.stdout
