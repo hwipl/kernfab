@@ -15,4 +15,8 @@ def build() -> None:
 
     build_host = ""
     build_cmd = f"make -j{BUILDJOBS} tarxz-pkg"
-    run.run_cmd(build_host, build_cmd)
+    output = run.run_cmd(build_host, build_cmd)
+
+    # get name of file from output
+    file_name = output.split()[-1]
+    print("Built kernel:", file_name)
