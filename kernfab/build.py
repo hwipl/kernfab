@@ -15,5 +15,7 @@ def build() -> None:
     output = run.run_cmd(build_host, build_cmd)
 
     # get name of file from output
-    file_name = output.split()[-1]
-    print("Built kernel:", file_name)
+    parts = output.split()
+    if parts:
+        file_name = parts[-1]
+        print("Built kernel:", file_name)
