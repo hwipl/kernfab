@@ -13,8 +13,8 @@ def create_base_image() -> None:
 
     image_host = ""
     file_format = "qcow2"
-    file_name = "qemu-base.img"
-    file_size = "20G"
+    file_name = config.QEMU_BASEIMG_NAME
+    file_size = config.QEMU_BASEIMG_SIZE
     image_cmd = f"qemu-img create -f {file_format} {file_name} {file_size}"
     run.run_cmd(image_host, image_cmd)
 
@@ -25,8 +25,8 @@ def create_sub_image() -> None:
     """
 
     image_host = ""
-    base_image = "qemu-base.img"
-    file_name = "qemu-sub.img"
+    base_image = config.QEMU_BASEIMG_NAME
+    file_name = config.QEMU_SUBIMG_NAME
     image_cmd = f"qemu-img create -b {base_image} {file_name}"
     run.run_cmd(image_host, image_cmd)
 
