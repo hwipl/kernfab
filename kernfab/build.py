@@ -2,10 +2,7 @@
 Module for building the kernel
 """
 
-from kernfab import run
-
-# number of simultaneous build jobs to run
-BUILDJOBS = 32
+from kernfab import config, run
 
 
 def build() -> None:
@@ -14,7 +11,7 @@ def build() -> None:
     """
 
     build_host = ""
-    build_cmd = f"make -j{BUILDJOBS} tarxz-pkg"
+    build_cmd = f"make -j{config.BUILDJOBS} tarxz-pkg"
     output = run.run_cmd(build_host, build_cmd)
 
     # get name of file from output

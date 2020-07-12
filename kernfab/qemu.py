@@ -3,10 +3,7 @@ Module for creating virtual machine images and
 running virtual machines with qemu
 """
 
-from kernfab import run
-
-# name of qemu executable
-QEMU = "qemu-system-x86_64"
+from kernfab import config, run
 
 
 def create_base_image() -> None:
@@ -50,5 +47,5 @@ def run_vm():
         "-object rng-random,filename=/dev/urandom,id=rng0 " \
         "-device virtio-rng-pci, rng=rng0 " \
         "-monitor unix:vm0.sock,server,nowait"
-    vm_cmd = f"{QEMU} {options}"
+    vm_cmd = f"{config.QEMU} {options}"
     run.run_cmd(host, vm_cmd)
