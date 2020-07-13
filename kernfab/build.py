@@ -17,5 +17,8 @@ def build() -> None:
     # get name of file from output
     parts = output.split()
     if parts:
+        # get file name and extract kernel version from filename
         file_name = parts[-1]
-        print("Built kernel:", file_name)
+        version = "-".join(file_name.split("-")[1:-1])
+        print("Built kernel version:", version)
+        print("Saved kernel in file:", file_name)
