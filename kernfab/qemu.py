@@ -31,6 +31,26 @@ def create_sub_image() -> None:
     run.run_cmd(image_host, image_cmd)
 
 
+def mount_image() -> None:
+    """
+    Mount a vm image
+    """
+
+    mnt_host = ""
+
+    # setup network block device
+    nbd_dev = "/dev/nbd0"
+    file_name = config.QEMU_SUBIMG_NAME
+    nbd_cmd = f"qemu-nbd --connect={nbd_dev} {file_name}"
+    run.run_cmd(mnt_host, nbd_cmd)
+
+    # mount nbd partition
+    nbd_part = "/dev/nbd0p1"
+    mnt_dir = "vm-mount"
+    mnt_cmd = f"mount {nbd_part} {mnt_dir}"
+    run.run_cmd(mnt_host, mnt_cmd)
+
+
 def run_vm():
     """
     Run a VM
