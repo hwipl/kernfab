@@ -51,6 +51,24 @@ def mount_image() -> None:
     run.run_cmd(mnt_host, mnt_cmd)
 
 
+def umount_image() -> None:
+    """
+    Unmount a vm image
+    """
+
+    mnt_host = ""
+
+    # umount nbd partition
+    mnt_dir = "vm-mount"
+    mnt_cmd = f"umount {mnt_dir}"
+    run.run_cmd(mnt_host, mnt_cmd)
+
+    # close network block device
+    nbd_dev = "/dev/nbd0"
+    nbd_cmd = f"qemu-nbd --disconnect {nbd_dev}"
+    run.run_cmd(mnt_host, nbd_cmd)
+
+
 def run_vm():
     """
     Run a VM
