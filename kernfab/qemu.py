@@ -87,3 +87,9 @@ def run_vm():
         "-monitor unix:vm0.sock,server,nowait"
     vm_cmd = f"{config.QEMU} {options}"
     run.run_cmd(host, vm_cmd)
+
+
+def qemu() -> None:
+    """
+    qemu specific command handling
+    """

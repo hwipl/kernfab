@@ -3,7 +3,7 @@ Main part of kernfab
 """
 
 import argparse
-from kernfab import build, install
+from kernfab import build, install, qemu
 
 VERSION = "0.1"
 
@@ -24,6 +24,14 @@ def _install(_args) -> None:
 
     print("Install kernel")
     install.install()
+
+
+def _qemu(_args) -> None:
+    """
+    qemu specific command handling
+    """
+
+    qemu.qemu()
 
 
 def _parse_args() -> None:
@@ -49,6 +57,10 @@ def _parse_args() -> None:
     # create the parser for the "install" command
     parser_install = subparsers.add_parser("install", help="install kernel")
     parser_install.set_defaults(func=_install)
+
+    # create the parser for the "qemu" command
+    parser_qemu = subparsers.add_parser("qemu", help="qemu commands")
+    parser_qemu.set_defaults(func=_qemu)
 
     # parse arguments and call subcommand functions
     args = parser.parse_args()
