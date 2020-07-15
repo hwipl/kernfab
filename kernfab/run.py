@@ -18,3 +18,16 @@ def run_cmd(host: str, cmd: str) -> str:
         conn = Connection(host)
         result = conn.run(cmd, warn=True)
     return result.stdout
+
+
+def run_background(host: str, cmd: str) -> None:
+    """
+    Run a command in the background
+    """
+
+    cmd = f"bash -l -c \"{cmd}\""
+    if host == "":
+        invoke.run(cmd, warn=True, disown=True)
+    else:
+        conn = Connection(host)
+        conn.run(cmd, warn=True, disown=True)
