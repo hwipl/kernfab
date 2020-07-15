@@ -89,7 +89,29 @@ def run_vm():
     run.run_cmd(host, vm_cmd)
 
 
-def qemu() -> None:
+def _qemu_base_image_mount() -> None:
+    """
+    mount base image
+    """
+
+    print("Mount base image")
+
+
+def _qemu_base_image_umount() -> None:
+    """
+    umount base image
+    """
+
+    print("Umount base image")
+
+
+def qemu(command: str) -> None:
     """
     qemu specific command handling
     """
+
+    cmd_map = {
+        "base-image-mount": _qemu_base_image_mount,
+        "base-image-umount": _qemu_base_image_umount,
+    }
+    cmd_map[command]()

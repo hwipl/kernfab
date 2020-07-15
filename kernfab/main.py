@@ -26,12 +26,13 @@ def _install(_args) -> None:
     install.install()
 
 
-def _qemu(_args) -> None:
+def _qemu(args) -> None:
     """
     qemu specific command handling
     """
 
-    qemu.qemu()
+    if args.base_image:
+        qemu.qemu(f"base-image-{args.base_image}")
 
 
 def _parse_args() -> None:
@@ -60,6 +61,7 @@ def _parse_args() -> None:
 
     # create the parser for the "qemu" command
     parser_qemu = subparsers.add_parser("qemu", help="qemu commands")
+    parser_qemu.add_argument("--base-image", choices=["mount", "umount"])
     parser_qemu.set_defaults(func=_qemu)
 
     # parse arguments and call subcommand functions
