@@ -31,7 +31,7 @@ def create_sub_image() -> None:
     run.run_cmd(image_host, image_cmd)
 
 
-def mount_image() -> None:
+def mount_image(file_name: str) -> None:
     """
     Mount a vm image
     """
@@ -40,14 +40,15 @@ def mount_image() -> None:
 
     # setup network block device
     nbd_dev = "/dev/nbd0"
-    file_name = config.QEMU_SUBIMG_NAME
     nbd_cmd = f"qemu-nbd --connect={nbd_dev} {file_name}"
+    print(f"Creating nbd {nbd_dev}")
     run.run_cmd(mnt_host, nbd_cmd)
 
     # mount nbd partition
     nbd_part = "/dev/nbd0p1"
     mnt_dir = "vm-mount"
     mnt_cmd = f"mount {nbd_part} {mnt_dir}"
+    print(f"Mounting partition {nbd_part}")
     run.run_cmd(mnt_host, mnt_cmd)
 
 
@@ -61,11 +62,13 @@ def umount_image() -> None:
     # umount nbd partition
     mnt_dir = "vm-mount"
     mnt_cmd = f"umount {mnt_dir}"
+    print(f"Umounting dir {mnt_dir}")
     run.run_cmd(mnt_host, mnt_cmd)
 
     # close network block device
     nbd_dev = "/dev/nbd0"
     nbd_cmd = f"qemu-nbd --disconnect {nbd_dev}"
+    print(f"Disconnecting nbd {nbd_dev}")
     run.run_cmd(mnt_host, nbd_cmd)
 
 
@@ -95,6 +98,8 @@ def _qemu_base_image_mount() -> None:
     """
 
     print("Mount base image")
+    file_name = config.QEMU_BASEIMG_NAME
+    mount_image(file_name)
 
 
 def _qemu_base_image_umount() -> None:
@@ -103,6 +108,7 @@ def _qemu_base_image_umount() -> None:
     """
 
     print("Umount base image")
+    umount_image()
 
 
 def qemu(command: str) -> None:
