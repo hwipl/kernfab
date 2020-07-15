@@ -42,10 +42,13 @@ def mount_image(file_name: str) -> None:
     nbd_dev = "/dev/nbd0"
     nbd_cmd = f"qemu-nbd --connect={nbd_dev} {file_name}"
     print(f"Creating nbd {nbd_dev}")
-    run.run_cmd(mnt_host, nbd_cmd)
+    run.run_background(mnt_host, nbd_cmd)
+
+    # make sure nbd partition is ready
+    nbd_part = "/dev/nbd0p1"
+    run.run_try(mnt_host, f"ls {nbd_part}", 10)
 
     # mount nbd partition
-    nbd_part = "/dev/nbd0p1"
     mnt_dir = "vm-mount"
     mnt_cmd = f"mount {nbd_part} {mnt_dir}"
     print(f"Mounting partition {nbd_part}")
