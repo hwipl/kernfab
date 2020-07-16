@@ -95,6 +95,15 @@ def run_vm():
     run.run_cmd(host, vm_cmd)
 
 
+def _qemu_base_image_create() -> None:
+    """
+    create base image
+    """
+
+    print("Create base image")
+    create_base_image()
+
+
 def _qemu_base_image_mount() -> None:
     """
     mount base image
@@ -120,6 +129,7 @@ def qemu(command: str) -> None:
     """
 
     cmd_map = {
+        "base-image-create": _qemu_base_image_create,
         "base-image-mount": _qemu_base_image_mount,
         "base-image-umount": _qemu_base_image_umount,
     }

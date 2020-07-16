@@ -61,7 +61,8 @@ def _parse_args() -> None:
 
     # create the parser for the "qemu" command
     parser_qemu = subparsers.add_parser("qemu", help="qemu commands")
-    parser_qemu.add_argument("--base-image", choices=["mount", "umount"])
+    parser_qemu.add_argument("--base-image", choices=["create", "mount",
+                                                      "umount"])
     parser_qemu.set_defaults(func=_qemu)
 
     # parse arguments and call subcommand functions
