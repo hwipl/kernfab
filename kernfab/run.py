@@ -46,6 +46,15 @@ def run_try(host: str, cmd: str, timeout: int) -> str:
     return ""
 
 
+def run_ok(host: str, cmd: str) -> bool:
+    """
+    Run a command and return true if the execution was ok
+    """
+
+    result = _run_cmd(host, cmd, hide=True)
+    return result.ok
+
+
 def run_background(host: str, cmd: str) -> None:
     """
     Run a command in the background
