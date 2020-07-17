@@ -31,9 +31,11 @@ def create_sub_image(name: str) -> None:
     """
 
     image_host = ""
+    file_format = "qcow2"
     base_image = config.QEMU_BASEIMG_NAME
     file_name = config.QEMU_SUBIMG_NAME
-    image_cmd = f"qemu-img create -b {base_image} {file_name}{name}"
+    image_cmd = \
+        f"qemu-img create -f {file_format} -b {base_image} {file_name}{name}"
     run.run_cmd(image_host, image_cmd)
 
 
