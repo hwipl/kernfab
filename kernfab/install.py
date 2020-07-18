@@ -32,11 +32,11 @@ def _chroot_sub_image_install() -> None:
     run.run_cmd(install_host, cmd)
 
     # umount everything in chroot dir
-    cmd = f"umount {mount_dir}/proc"
+    cmd = f"umount -R {mount_dir}/proc"
     run.run_cmd(install_host, cmd)
-    cmd = f"umount {mount_dir}/sys"
+    cmd = f"umount -R {mount_dir}/sys"
     run.run_cmd(install_host, cmd)
-    cmd = f"umount {mount_dir}/dev"
+    cmd = f"umount -R {mount_dir}/dev"
     run.run_cmd(install_host, cmd)
 
 
