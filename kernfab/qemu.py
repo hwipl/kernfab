@@ -60,8 +60,12 @@ def mount_image(file_name: str) -> None:
     nbd_part = "/dev/nbd0p1"
     run.run_try(mnt_host, f"ls {nbd_part}", 10)
 
-    # mount nbd partition
+    # make sure mount directory exists
     mnt_dir = "vm-mount"
+    mkdir_cmd = f"mkdir {mnt_dir}"
+    run.run_ok(mnt_host, mkdir_cmd)
+
+    # mount nbd partition
     mnt_cmd = f"mount {nbd_part} {mnt_dir}"
     print(f"Mounting partition {nbd_part}")
     run.run_cmd(mnt_host, mnt_cmd)
