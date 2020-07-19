@@ -46,6 +46,10 @@ def mount_image(file_name: str) -> None:
 
     mnt_host = ""
 
+    # make sure nbd module is loaded
+    mod_cmd = "modprobe nbd"
+    run.run_ok(mnt_host, mod_cmd)
+
     # setup network block device
     nbd_dev = "/dev/nbd0"
     nbd_cmd = f"qemu-nbd --connect={nbd_dev} {file_name}"
