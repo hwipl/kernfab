@@ -17,13 +17,13 @@ def _build(_args) -> None:
     build.build()
 
 
-def _install(_args) -> None:
+def _install(args) -> None:
     """
     Install kernel
     """
 
     print("Install kernel")
-    install.install()
+    install.install(args.kernel_version)
 
 
 def _qemu(args) -> None:
@@ -57,6 +57,7 @@ def _parse_args() -> None:
 
     # create the parser for the "install" command
     parser_install = subparsers.add_parser("install", help="install kernel")
+    parser_install.add_argument("kernel_version")
     parser_install.set_defaults(func=_install)
 
     # create the parser for the "qemu" command

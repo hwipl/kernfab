@@ -5,14 +5,13 @@ Module for installing the kernel
 from kernfab import config, qemu, run
 
 
-def _install_sub_image_kernel() -> None:
+def _install_sub_image_kernel(kernel_version: str) -> None:
     """
     Install kernel in sub image
     """
 
     mount_dir = "vm-mount"
     install_host = ""
-    kernel_version = "5.8.0-rc4+"
 
     # extract kernel archive to mounted vm image
     kernel_archive = f"linux-{kernel_version}-x86.tar.xz"
@@ -30,7 +29,7 @@ def _install_sub_image_kernel() -> None:
     run.run_cmd(install_host, cmd)
 
 
-def _install_sub_images() -> None:
+def _install_sub_images(kernel_version: str) -> None:
     """
     Create sub images and install in them
     """
@@ -41,13 +40,13 @@ def _install_sub_images() -> None:
         qemu.create_sub_image(name)
         file_name = f"{config.QEMU_SUBIMG_NAME}{name}"
         qemu.mount_image(file_name)
-        _install_sub_image_kernel()
+        _install_sub_image_kernel(kernel_version)
         qemu.umount_image()
 
 
-def install() -> None:
+def install(kernel_version: str) -> None:
     """
     Install kernel
     """
 
-    _install_sub_images()
+    _install_sub_images(kernel_version)
