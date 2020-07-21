@@ -91,7 +91,7 @@ def umount_image() -> None:
     run.run_cmd(mnt_host, nbd_cmd)
 
 
-def run_vm():
+def run_vm(vm_image: str, vm_id: str) -> None:
     """
     Run a VM
     """
@@ -100,13 +100,13 @@ def run_vm():
     options = "-enable-kvm " \
         "-m 512 " \
         "-daemonize " \
-        "-vnc 127.0.0.1:0 " \
-        "-drive discard=unmap,cache=none,file=qemu.img,if=virtio " \
-        "-netdev tap=id=net0,ifname=vmtap0 " \
+        f"-vnc 127.0.0.1:{vm_id} " \
+        f"-drive discard=unmap,cache=none,file={vm_image},if=virtio " \
+        f"-netdev tap=id=net0,ifname=vmtap{vm_id} " \
         "-device virtio-net-pci,netdev=net0 " \
         "-object rng-random,filename=/dev/urandom,id=rng0 " \
         "-device virtio-rng-pci, rng=rng0 " \
-        "-monitor unix:vm0.sock,server,nowait"
+        f"-monitor unix:vm{vm_id}.sock,server,nowait"
     vm_cmd = f"{config.QEMU} {options}"
     run.run_cmd(host, vm_cmd)
 
