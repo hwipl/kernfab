@@ -102,13 +102,14 @@ def run_vm(vm_image: str, vm_id: str) -> None:
         "-daemonize " \
         f"-vnc 127.0.0.1:{vm_id} " \
         f"-drive discard=unmap,cache=none,file={vm_image},if=virtio " \
-        f"-netdev tap=id=net0,ifname=vmtap{vm_id} " \
+        f"-netdev tap,id=net0,ifname=vmtap{vm_id},script=no,downscript=no " \
         "-device virtio-net-pci,netdev=net0 " \
         "-object rng-random,filename=/dev/urandom,id=rng0 " \
-        "-device virtio-rng-pci, rng=rng0 " \
+        "-device virtio-rng-pci,rng=rng0 " \
         f"-monitor unix:vm{vm_id}.sock,server,nowait"
     vm_cmd = f"{config.QEMU} {options}"
-    run.run_cmd(host, vm_cmd)
+    print(vm_cmd)
+    run.run_background(host, vm_cmd)
 
 
 def _qemu_base_image_create() -> None:
