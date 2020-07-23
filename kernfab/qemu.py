@@ -112,6 +112,16 @@ def run_vm(vm_image: str, vm_id: str) -> None:
     run.run_background(host, vm_cmd)
 
 
+def stop_vm(vm_id: str) -> None:
+    """
+    Stop a VM
+    """
+
+    host = ""
+    cmd = f"echo \"system_powerdown\" | nc -U \"vm{vm_id}.sock\" &"
+    run.run_background(host, cmd)
+
+
 def _qemu_base_image_create() -> None:
     """
     create base image
