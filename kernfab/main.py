@@ -35,13 +35,13 @@ def _start(_args) -> None:
     start.start()
 
 
-def _stop(_args) -> None:
+def _stop(args) -> None:
     """
     Stop vm(s) with kernel
     """
 
     print("Stop kernel VM(s)")
-    stop.stop()
+    stop.stop(args.quit)
 
 
 def _qemu(args) -> None:
@@ -85,6 +85,8 @@ def _parse_args() -> None:
 
     # create the parser for the "stop" command
     parser_stop = subparsers.add_parser("stop", help="stop vm(s) with kernel")
+    parser_stop.add_argument("--quit", action='store_true',
+                             help="Force quitting vm(s)")
     parser_stop.set_defaults(func=_stop)
 
     # create the parser for the "qemu" command

@@ -5,7 +5,7 @@ Module for stopping kernel VM(s)
 from kernfab import qemu
 
 
-def stop() -> None:
+def stop(is_quit: bool) -> None:
     """
     Stop kernel VM(s)
     """
@@ -14,4 +14,7 @@ def stop() -> None:
     images = ["1"]
     for name in images:
         vm_id = f"{name}"
-        qemu.stop_vm(vm_id)
+        if is_quit:
+            qemu.quit_vm(vm_id)
+        else:
+            qemu.stop_vm(vm_id)
