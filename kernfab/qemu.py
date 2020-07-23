@@ -118,8 +118,8 @@ def stop_vm(vm_id: str) -> None:
     """
 
     host = ""
-    cmd = f"echo \"system_powerdown\" | nc -U \"vm{vm_id}.sock\" &"
-    run.run_background(host, cmd)
+    cmd = f"echo \"system_powerdown\" | nc -U \"vm{vm_id}.sock\""
+    run.run_cmd(host, cmd)
 
 
 def quit_vm(vm_id: str) -> None:
@@ -128,8 +128,8 @@ def quit_vm(vm_id: str) -> None:
     """
 
     host = ""
-    cmd = f"echo \"quit\" | nc -U \"vm{vm_id}.sock\" &"
-    run.run_background(host, cmd)
+    cmd = f"echo \"quit\" | nc -U \"vm{vm_id}.sock\""
+    run.run_cmd(host, cmd)
 
 
 def _qemu_base_image_create() -> None:
