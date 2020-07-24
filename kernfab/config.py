@@ -12,3 +12,6 @@ QEMU = "qemu-system-x86_64"
 QEMU_BASEIMG_NAME = "qemu-base.img"
 QEMU_BASEIMG_SIZE = "20G"
 QEMU_SUBIMG_NAME = "qemu-sub.img"
+
+# vm settings
+NUM_VMS = 2

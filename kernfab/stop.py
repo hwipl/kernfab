@@ -2,7 +2,7 @@
 Module for stopping kernel VM(s)
 """
 
-from kernfab import qemu
+from kernfab import config, qemu
 
 
 def stop(is_quit: bool) -> None:
@@ -10,9 +10,7 @@ def stop(is_quit: bool) -> None:
     Stop kernel VM(s)
     """
 
-    # images = ["1", "2"]
-    images = ["1"]
-    for name in images:
+    for name in range(config.NUM_VMS):
         vm_id = f"{name}"
         if is_quit:
             qemu.quit_vm(vm_id)

@@ -34,10 +34,8 @@ def _install_sub_images(kernel_version: str) -> None:
     Create sub images and install in them
     """
 
-    # images = ["1", "2"]
-    images = ["1"]
-    for name in images:
-        qemu.create_sub_image(name)
+    for name in range(config.NUM_VMS):
+        qemu.create_sub_image(str(name))
         file_name = f"{config.QEMU_SUBIMG_NAME}{name}"
         qemu.mount_image(file_name)
         _install_sub_image_kernel(kernel_version)
