@@ -97,6 +97,12 @@ def run_vm(vm_image: str, vm_id: str) -> None:
     """
 
     host = ""
+
+    # check if vm is already running
+    if run.run_ok(host, f"ls vm{vm_id}.sock"):
+        print("VM seems to be running already")
+        return
+
     options = "-enable-kvm " \
         "-m 512 " \
         "-daemonize " \
