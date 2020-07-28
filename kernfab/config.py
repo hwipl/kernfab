@@ -15,3 +15,4 @@ QEMU_SUBIMG_NAME = "qemu-sub.img"
 
 # vm settings
 NUM_VMS = 2
+VM_TAP_NAME = "kernfabvm"

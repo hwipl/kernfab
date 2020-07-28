@@ -103,12 +103,13 @@ def run_vm(vm_image: str, vm_id: str) -> None:
         print("VM seems to be running already")
         return
 
+    vm_tap = config.VM_TAP_NAME + vm_id
     options = "-enable-kvm " \
         "-m 512 " \
         "-daemonize " \
         f"-vnc 127.0.0.1:{vm_id} " \
         f"-drive discard=unmap,cache=none,file={vm_image},if=virtio " \
-        f"-netdev tap,id=net0,ifname=vmtap{vm_id},script=no,downscript=no " \
+        f"-netdev tap,id=net0,ifname={vm_tap},script=no,downscript=no " \
         "-device virtio-net-pci,netdev=net0 " \
         "-object rng-random,filename=/dev/urandom,id=rng0 " \
         "-device virtio-rng-pci,rng=rng0 " \
