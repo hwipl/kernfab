@@ -66,21 +66,27 @@ def _create_if_up_script() -> None:
 
     host = ""
     if_up_file = "vm_if_up_script.sh"
+
+    # create script
     ip_tool = "/usr/bin/ip"
     bridge_name = "kernfabbr0"
     script = f"""#!/bin/bash
 
-    IP={ip_tool}
-    BRIDGE={bridge_name}
-    TAP=$1
+IP={ip_tool}
+BRIDGE={bridge_name}
+TAP=\\$1
 
-    # add tap interface to bridge
-    $IP link set "$TAP" up
-    $IP link set "$TAP" promisc on
-    $IP link set "$TAP" master $BRIDGE
-    """
-    cmd = f"cat >{if_up_file} <<EOL {script}EOL"
-    run.run_cmd(host, cmd)
+# add tap interface to bridge
+\\$IP link set \\"\\$TAP\\" up
+\\$IP link set \\"\\$TAP\\" promisc on
+\\$IP link set \\"\\$TAP\\" master \\$BRIDGE
+"""
+    cat_cmd = f"cat <<-\\\"EOF\\\" > {if_up_file}\n{script}EOF"
+    run.run_cmd(host, cat_cmd)
+
+    # make script executable
+    chmod_cmd = f"chmod +x {if_up_file}"
+    run.run_cmd(host, chmod_cmd)
 
 
 def _create_if_down_script() -> None:
@@ -90,19 +96,25 @@ def _create_if_down_script() -> None:
 
     host = ""
     if_down_file = "vm_if_down_script.sh"
+
+    # create script
     ip_tool = "/usr/bin/ip"
     script = f"""#!/bin/bash
 
-    IP={ip_tool}
-    TAP=$1
+IP={ip_tool}
+TAP=\\$1
 
-    # remove tap interface from bridge
-    $IP link set "$TAP" nomaster
-    $IP link set "$TAP" promisc off
-    $IP link set "$TAP" down
-    """
-    cmd = f"cat >{if_down_file} <<EOL {script}EOL"
-    run.run_cmd(host, cmd)
+# remove tap interface from bridge
+\\$IP link set \\"\\$TAP\\" nomaster
+\\$IP link set \\"\\$TAP\\" promisc off
+\\$IP link set \\"\\$TAP\\" down
+"""
+    cat_cmd = f"cat <<-\\\"EOF\\\" > {if_down_file}\n{script}EOF"
+    run.run_cmd(host, cat_cmd)
+
+    # make script executable
+    chmod_cmd = f"chmod +x {if_down_file}"
+    run.run_cmd(host, chmod_cmd)
 
 
 def start() -> None:
