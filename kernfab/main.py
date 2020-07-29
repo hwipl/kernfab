@@ -26,13 +26,13 @@ def _install(args) -> None:
     install.install(args.kernel_version)
 
 
-def _start(_args) -> None:
+def _start(args) -> None:
     """
     Start vm(s) with kernel
     """
 
     print("Start kernel VM(s)")
-    start.start()
+    start.start(args.base_image)
 
 
 def _stop(args) -> None:
@@ -81,6 +81,8 @@ def _parse_args() -> None:
     # create the parser for the "start" command
     parser_start = subparsers.add_parser("start",
                                          help="start vm(s) with kernel")
+    parser_start.add_argument("--base-image", action="store_true",
+                              help="start base image")
     parser_start.set_defaults(func=_start)
 
     # create the parser for the "stop" command
