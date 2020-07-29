@@ -59,6 +59,37 @@ def _stop_bridge() -> None:
     run.run_cmd(host, del_cmd)
 
 
+def _start_dnsmasq() -> None:
+    """
+    Start dhcp and dns server for vms
+    """
+
+    host = ""
+    dnsmasq_tool = "/usr/bin/dnsmasq"
+    bridge_name = "kernfabbr0"
+    pid_file = "vm_bridge_dnsmasq.pid"
+    bridge_ip_range = "172.23.32.10,172.23.32.254"
+    bridge_routes = "0.0.0.0/0,172.23.32.1"
+    cmd = f"{dnsmasq_tool} " \
+        f"--interface={bridge_name} " \
+        "--bind-interfaces " \
+        "--except-interface=lo " \
+        f"--pid-file={pid_file} " \
+        f"--dhcp-range={bridge_ip_range} " \
+        f"--dhcp-option=option:classless-static-route,{bridge_routes}"
+
+    if config.NUM_VMS > 8:
+        print("too many VMs")
+        return
+
+    for i in range(config.NUM_VMS):
+        mac_to_ip = f"52:54:00:00:00:0{i + 1},172.23.32.1{i + 1}"
+        cmd += f" --dhcp-host={mac_to_ip}"
+
+    print(cmd)
+    run.run_cmd(host, cmd)
+
+
 def _create_if_up_script() -> None:
     """
     Create if up script for vm
@@ -121,6 +152,7 @@ def start() -> None:
     """
 
     _start_bridge()
+    _start_dnsmasq()
     _create_if_up_script()
     _create_if_down_script()
 
