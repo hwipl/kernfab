@@ -103,6 +103,10 @@ def run_vm(vm_image: str, vm_id: str) -> None:
         print("VM seems to be running already")
         return
 
+    if vm_id not in ["0", "1", "2", "3", "4", "5", "6", "7", "8"]:
+        print("invalid VM ID")
+        return
+
     vm_tap = config.VM_TAP_NAME + vm_id
     options = "-enable-kvm " \
         "-m 512 " \
@@ -112,7 +116,7 @@ def run_vm(vm_image: str, vm_id: str) -> None:
         f"-netdev tap,id=net0,ifname={vm_tap}," \
         f"script={config.VM_IF_UP_SCRIPT}," \
         f"downscript={config.VM_IF_DOWN_SCRIPT} " \
-        "-device virtio-net-pci,netdev=net0 " \
+        f"-device virtio-net-pci,netdev=net0,mac=52:54:00:00:00:1{vm_id} " \
         "-object rng-random,filename=/dev/urandom,id=rng0 " \
         "-device virtio-rng-pci,rng=rng0 " \
         f"-monitor unix:vm{vm_id}.sock,server,nowait"
