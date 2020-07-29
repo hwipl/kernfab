@@ -109,7 +109,9 @@ def run_vm(vm_image: str, vm_id: str) -> None:
         "-daemonize " \
         f"-vnc 127.0.0.1:{vm_id} " \
         f"-drive discard=unmap,cache=none,file={vm_image},if=virtio " \
-        f"-netdev tap,id=net0,ifname={vm_tap},script=no,downscript=no " \
+        f"-netdev tap,id=net0,ifname={vm_tap}," \
+        f"script={config.VM_IF_UP_SCRIPT}," \
+        f"downscript={config.VM_IF_DOWN_SCRIPT} " \
         "-device virtio-net-pci,netdev=net0 " \
         "-object rng-random,filename=/dev/urandom,id=rng0 " \
         "-device virtio-rng-pci,rng=rng0 " \
