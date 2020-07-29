@@ -135,9 +135,11 @@ def stop_vm(vm_id: str) -> None:
     """
 
     host = ""
-    cmd = f"echo \"system_powerdown\" | nc -U \"vm{vm_id}.sock\""
-    run.run_cmd(host, cmd)
-    _remove_vm_sockfile(vm_id)
+    vm_sock = f"vm{vm_id}.sock"
+    if run.run_ok(host, f"ls {vm_sock}"):
+        cmd = f"echo \"system_powerdown\" | nc -U \"{vm_sock}\""
+        run.run_cmd(host, cmd)
+        _remove_vm_sockfile(vm_id)
 
 
 def quit_vm(vm_id: str) -> None:
@@ -146,9 +148,11 @@ def quit_vm(vm_id: str) -> None:
     """
 
     host = ""
-    cmd = f"echo \"quit\" | nc -U \"vm{vm_id}.sock\""
-    run.run_cmd(host, cmd)
-    _remove_vm_sockfile(vm_id)
+    vm_sock = f"vm{vm_id}.sock"
+    if run.run_ok(host, f"ls {vm_sock}"):
+        cmd = f"echo \"quit\" | nc -U \"{vm_sock}\""
+        run.run_cmd(host, cmd)
+        _remove_vm_sockfile(vm_id)
 
 
 def _qemu_base_image_create() -> None:
