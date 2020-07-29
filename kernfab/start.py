@@ -2,7 +2,7 @@
 Module for starting kernel VM(s)
 """
 
-from kernfab import config, qemu
+from kernfab import config, network, qemu
 
 
 def start(base_image: bool = False) -> None:
@@ -10,6 +10,7 @@ def start(base_image: bool = False) -> None:
     Start kernel
     """
 
+    network.start()
     if base_image:
         vm_image = config.QEMU_BASEIMG_NAME
         vm_id = "0"

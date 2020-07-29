@@ -2,7 +2,7 @@
 Module for stopping kernel VM(s)
 """
 
-from kernfab import config, qemu
+from kernfab import config, network, qemu
 
 
 def stop(is_quit: bool) -> None:
@@ -16,3 +16,4 @@ def stop(is_quit: bool) -> None:
             qemu.quit_vm(vm_id)
         else:
             qemu.stop_vm(vm_id)
+    network.stop()
