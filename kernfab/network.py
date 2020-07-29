@@ -2,7 +2,7 @@
 Module for vm networking
 """
 
-from kernfab import run
+from kernfab import config, run
 
 
 def _start_bridge() -> None:
@@ -65,7 +65,6 @@ def _create_if_up_script() -> None:
     """
 
     host = ""
-    if_up_file = "vm_if_up_script.sh"
 
     # create script
     ip_tool = "/usr/bin/ip"
@@ -81,11 +80,11 @@ TAP=\\$1
 \\$IP link set \\"\\$TAP\\" promisc on
 \\$IP link set \\"\\$TAP\\" master \\$BRIDGE
 """
-    cat_cmd = f"cat <<-\\\"EOF\\\" > {if_up_file}\n{script}EOF"
+    cat_cmd = f"cat <<-\\\"EOF\\\" > {config.VM_IF_UP_SCRIPT}\n{script}EOF"
     run.run_cmd(host, cat_cmd)
 
     # make script executable
-    chmod_cmd = f"chmod +x {if_up_file}"
+    chmod_cmd = f"chmod +x {config.VM_IF_UP_SCRIPT}"
     run.run_cmd(host, chmod_cmd)
 
 
@@ -95,7 +94,6 @@ def _create_if_down_script() -> None:
     """
 
     host = ""
-    if_down_file = "vm_if_down_script.sh"
 
     # create script
     ip_tool = "/usr/bin/ip"
@@ -109,11 +107,11 @@ TAP=\\$1
 \\$IP link set \\"\\$TAP\\" promisc off
 \\$IP link set \\"\\$TAP\\" down
 """
-    cat_cmd = f"cat <<-\\\"EOF\\\" > {if_down_file}\n{script}EOF"
+    cat_cmd = f"cat <<-\\\"EOF\\\" > {config.VM_IF_DOWN_SCRIPT}\n{script}EOF"
     run.run_cmd(host, cat_cmd)
 
     # make script executable
-    chmod_cmd = f"chmod +x {if_down_file}"
+    chmod_cmd = f"chmod +x {config.VM_IF_DOWN_SCRIPT}"
     run.run_cmd(host, chmod_cmd)
 
 
