@@ -83,6 +83,28 @@ def _create_if_up_script() -> None:
     run.run_cmd(host, cmd)
 
 
+def _create_if_down_script() -> None:
+    """
+    Create if down script for vm
+    """
+
+    host = ""
+    if_down_file = "vm_if_down_script.sh"
+    ip_tool = "/usr/bin/ip"
+    script = f"""#!/bin/bash
+
+    IP={ip_tool}
+    TAP=$1
+
+    # remove tap interface from bridge
+    $IP link set "$TAP" nomaster
+    $IP link set "$TAP" promisc off
+    $IP link set "$TAP" down
+    """
+    cmd = f"cat >{if_down_file} <<EOL {script}EOL"
+    run.run_cmd(host, cmd)
+
+
 def start() -> None:
     """
     Start vm network
@@ -90,6 +112,7 @@ def start() -> None:
 
     _start_bridge()
     _create_if_up_script()
+    _create_if_down_script()
 
 
 def stop() -> None:
