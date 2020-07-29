@@ -59,12 +59,37 @@ def _stop_bridge() -> None:
     run.run_cmd(host, del_cmd)
 
 
+def _create_if_up_script() -> None:
+    """
+    Create if up script for vm
+    """
+
+    host = ""
+    if_up_file = "vm_if_up_script.sh"
+    ip_tool = "/usr/bin/ip"
+    bridge_name = "kernfabbr0"
+    script = f"""#!/bin/bash
+
+    IP={ip_tool}
+    BRIDGE={bridge_name}
+    TAP=$1
+
+    # add tap interface to bridge
+    $IP link set "$TAP" up
+    $IP link set "$TAP" promisc on
+    $IP link set "$TAP" master $BRIDGE
+    """
+    cmd = f"cat >{if_up_file} <<EOL {script}EOL"
+    run.run_cmd(host, cmd)
+
+
 def start() -> None:
     """
     Start vm network
     """
 
     _start_bridge()
+    _create_if_up_script()
 
 
 def stop() -> None:
