@@ -67,7 +67,7 @@ def _start_dnsmasq() -> None:
     host = ""
     dnsmasq_tool = "/usr/bin/dnsmasq"
     bridge_name = "kernfabbr0"
-    pid_file = "vm_bridge_dnsmasq.pid"
+    pid_file = "/tmp/kernfab_vm_bridge_dnsmasq.pid"
     bridge_ip_range = "172.23.32.10,172.23.32.254"
     bridge_routes = "0.0.0.0/0,172.23.32.1"
     cmd = f"{dnsmasq_tool} " \
@@ -87,6 +87,17 @@ def _start_dnsmasq() -> None:
         cmd += f" --dhcp-host={mac_to_ip}"
 
     print(cmd)
+    run.run_cmd(host, cmd)
+
+
+def _stop_dnsmasq() -> None:
+    """
+    Stop dhcp and dns server for vms
+    """
+
+    host = ""
+    pid_file = "/tmp/kernfab_vm_bridge_dnsmasq.pid"
+    cmd = f"kill $(cat {pid_file})"
     run.run_cmd(host, cmd)
 
 
@@ -162,4 +173,5 @@ def stop() -> None:
     Stop vm network
     """
 
+    _stop_dnsmasq()
     _stop_bridge()
