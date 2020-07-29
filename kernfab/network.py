@@ -101,6 +101,35 @@ def _stop_dnsmasq() -> None:
     run.run_cmd(host, cmd)
 
 
+def _start_nat() -> None:
+    """
+    Start nat for vms
+    """
+
+    host = ""
+    bridge_name = "kernfabbr0"
+
+    # enable ip forwarding
+    sysctl_tool = "/usr/bin/sysctl"
+    fwd_cmd = f"{sysctl_tool} net.ipv4.conf.{bridge_name}.forwarding=1"
+    run.run_cmd(host, fwd_cmd)
+
+    # enable nat
+    iptables_tool = "/usr/bin/iptables"
+    prefix = "172.23.32.0/24"
+    masq_cmd = f"{iptables_tool} -t nat -A POSTROUTING -s {prefix} " \
+        "-j MASQUERADE"
+    run.run_cmd(host, masq_cmd)
+
+    out_cmd = f"{iptables_tool} -A FORWARD -m conntrack " \
+        f"--ctstate RELATED,ESTABLISHED -o {bridge_name} -d {prefix} -j ACCEPT"
+    run.run_cmd(host, out_cmd)
+
+    in_cmd = f"{iptables_tool} -A FORWARD -i {bridge_name} -s {prefix} " \
+        "-j ACCEPT"
+    run.run_cmd(host, in_cmd)
+
+
 def _create_if_up_script() -> None:
     """
     Create if up script for vm
@@ -164,6 +193,7 @@ def start() -> None:
 
     _start_bridge()
     _start_dnsmasq()
+    _start_nat()
     _create_if_up_script()
     _create_if_down_script()
 
