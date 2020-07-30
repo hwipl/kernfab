@@ -12,23 +12,22 @@ def _start_bridge() -> None:
 
     host = ""
     ip_tool = "/usr/bin/ip"
-    bridge_name = "kernfabbr0"
     bridge_ip = "172.23.32.1/24"
 
     # add bridge device
-    add_cmd = f"{ip_tool} link add name {bridge_name} type bridge"
+    add_cmd = f"{ip_tool} link add name {config.BRIDGE_NAME} type bridge"
     run.run_cmd(host, add_cmd)
 
     # make sure bridge device is up
-    up_cmd = f"{ip_tool} link set {bridge_name} up"
+    up_cmd = f"{ip_tool} link set {config.BRIDGE_NAME} up"
     run.run_cmd(host, up_cmd)
 
     # set promiscuous mode on bridge device
-    promisc_cmd = f"{ip_tool} link set {bridge_name} promisc on"
+    promisc_cmd = f"{ip_tool} link set {config.BRIDGE_NAME} promisc on"
     run.run_cmd(host, promisc_cmd)
 
     # set ip address on bridge device
-    ip_cmd = f"{ip_tool} address add {bridge_ip} dev {bridge_name}"
+    ip_cmd = f"{ip_tool} address add {bridge_ip} dev {config.BRIDGE_NAME}"
     run.run_cmd(host, ip_cmd)
 
 
@@ -39,23 +38,22 @@ def _stop_bridge() -> None:
 
     host = ""
     ip_tool = "/usr/bin/ip"
-    bridge_name = "kernfabbr0"
     bridge_ip = "172.23.32.1/24"
 
     # remove ip from bridge device
-    ip_cmd = f"{ip_tool} address del {bridge_ip} dev {bridge_name}"
+    ip_cmd = f"{ip_tool} address del {bridge_ip} dev {config.BRIDGE_NAME}"
     run.run_cmd(host, ip_cmd)
 
     # turn promiscuous mode of on bridge device
-    promisc_cmd = f"{ip_tool} link set {bridge_name} promisc off"
+    promisc_cmd = f"{ip_tool} link set {config.BRIDGE_NAME} promisc off"
     run.run_cmd(host, promisc_cmd)
 
     # set bridge down
-    down_cmd = f"{ip_tool} link set {bridge_name} down"
+    down_cmd = f"{ip_tool} link set {config.BRIDGE_NAME} down"
     run.run_cmd(host, down_cmd)
 
     # remove bridge device
-    del_cmd = f"{ip_tool} link del name {bridge_name} type bridge"
+    del_cmd = f"{ip_tool} link del name {config.BRIDGE_NAME} type bridge"
     run.run_cmd(host, del_cmd)
 
 
@@ -66,12 +64,11 @@ def _start_dnsmasq() -> None:
 
     host = ""
     dnsmasq_tool = "/usr/bin/dnsmasq"
-    bridge_name = "kernfabbr0"
     pid_file = "/tmp/kernfab_vm_bridge_dnsmasq.pid"
     bridge_ip_range = "172.23.32.10,172.23.32.254"
     bridge_routes = "0.0.0.0/0,172.23.32.1"
     cmd = f"{dnsmasq_tool} " \
-        f"--interface={bridge_name} " \
+        f"--interface={config.BRIDGE_NAME} " \
         "--bind-interfaces " \
         "--except-interface=lo " \
         f"--pid-file={pid_file} " \
@@ -107,11 +104,10 @@ def _start_nat() -> None:
     """
 
     host = ""
-    bridge_name = "kernfabbr0"
 
     # enable ip forwarding
     sysctl_tool = "/usr/bin/sysctl"
-    fwd_cmd = f"{sysctl_tool} net.ipv4.conf.{bridge_name}.forwarding=1"
+    fwd_cmd = f"{sysctl_tool} net.ipv4.conf.{config.BRIDGE_NAME}.forwarding=1"
     run.run_cmd(host, fwd_cmd)
 
     # enable nat
@@ -122,11 +118,12 @@ def _start_nat() -> None:
     run.run_cmd(host, masq_cmd)
 
     out_cmd = f"{iptables_tool} -A FORWARD -m conntrack " \
-        f"--ctstate RELATED,ESTABLISHED -o {bridge_name} -d {prefix} -j ACCEPT"
+        f"--ctstate RELATED,ESTABLISHED -o {config.BRIDGE_NAME} -d {prefix} " \
+        "-j ACCEPT"
     run.run_cmd(host, out_cmd)
 
-    in_cmd = f"{iptables_tool} -A FORWARD -i {bridge_name} -s {prefix} " \
-        "-j ACCEPT"
+    in_cmd = f"{iptables_tool} -A FORWARD -i {config.BRIDGE_NAME} " \
+        f"-s {prefix} -j ACCEPT"
     run.run_cmd(host, in_cmd)
 
 
@@ -136,11 +133,10 @@ def _stop_nat() -> None:
     """
 
     host = ""
-    bridge_name = "kernfabbr0"
 
     # disable ip forwarding
     sysctl_tool = "/usr/bin/sysctl"
-    fwd_cmd = f"{sysctl_tool} net.ipv4.conf.{bridge_name}.forwarding=0"
+    fwd_cmd = f"{sysctl_tool} net.ipv4.conf.{config.BRIDGE_NAME}.forwarding=0"
     run.run_cmd(host, fwd_cmd)
 
     # disable nat
@@ -151,11 +147,12 @@ def _stop_nat() -> None:
     run.run_cmd(host, masq_cmd)
 
     out_cmd = f"{iptables_tool} -D FORWARD -m conntrack " \
-        f"--ctstate RELATED,ESTABLISHED -o {bridge_name} -d {prefix} -j ACCEPT"
+        f"--ctstate RELATED,ESTABLISHED -o {config.BRIDGE_NAME} -d {prefix} " \
+        "-j ACCEPT"
     run.run_cmd(host, out_cmd)
 
-    in_cmd = f"{iptables_tool} -D FORWARD -i {bridge_name} -s {prefix} " \
-        "-j ACCEPT"
+    in_cmd = f"{iptables_tool} -D FORWARD -i {config.BRIDGE_NAME} " \
+        f"-s {prefix} -j ACCEPT"
     run.run_cmd(host, in_cmd)
 
 
@@ -168,11 +165,10 @@ def _create_if_up_script() -> None:
 
     # create script
     ip_tool = "/usr/bin/ip"
-    bridge_name = "kernfabbr0"
     script = f"""#!/bin/bash
 
 IP={ip_tool}
-BRIDGE={bridge_name}
+BRIDGE={config.BRIDGE_NAME}
 TAP=\\$1
 
 # add tap interface to bridge
