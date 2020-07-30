@@ -11,22 +11,22 @@ def _start_bridge() -> None:
     """
 
     host = ""
-    ip_tool = "/usr/bin/ip"
 
     # add bridge device
-    add_cmd = f"{ip_tool} link add name {config.BRIDGE_NAME} type bridge"
+    add_cmd = f"{config.IP_TOOL} link add name {config.BRIDGE_NAME} " \
+        "type bridge"
     run.run_cmd(host, add_cmd)
 
     # make sure bridge device is up
-    up_cmd = f"{ip_tool} link set {config.BRIDGE_NAME} up"
+    up_cmd = f"{config.IP_TOOL} link set {config.BRIDGE_NAME} up"
     run.run_cmd(host, up_cmd)
 
     # set promiscuous mode on bridge device
-    promisc_cmd = f"{ip_tool} link set {config.BRIDGE_NAME} promisc on"
+    promisc_cmd = f"{config.IP_TOOL} link set {config.BRIDGE_NAME} promisc on"
     run.run_cmd(host, promisc_cmd)
 
     # set ip address on bridge device
-    ip_cmd = f"{ip_tool} address add {config.BRIDGE_IP}/" \
+    ip_cmd = f"{config.IP_TOOL} address add {config.BRIDGE_IP}/" \
         f"{config.BRIDGE_IP_PREFIX_LEN} dev {config.BRIDGE_NAME}"
     run.run_cmd(host, ip_cmd)
 
@@ -37,23 +37,23 @@ def _stop_bridge() -> None:
     """
 
     host = ""
-    ip_tool = "/usr/bin/ip"
 
     # remove ip from bridge device
-    ip_cmd = f"{ip_tool} address del {config.BRIDGE_IP}/" \
+    ip_cmd = f"{config.IP_TOOL} address del {config.BRIDGE_IP}/" \
         f"{config.BRIDGE_IP_PREFIX_LEN} dev {config.BRIDGE_NAME}"
     run.run_cmd(host, ip_cmd)
 
     # turn promiscuous mode of on bridge device
-    promisc_cmd = f"{ip_tool} link set {config.BRIDGE_NAME} promisc off"
+    promisc_cmd = f"{config.IP_TOOL} link set {config.BRIDGE_NAME} promisc off"
     run.run_cmd(host, promisc_cmd)
 
     # set bridge down
-    down_cmd = f"{ip_tool} link set {config.BRIDGE_NAME} down"
+    down_cmd = f"{config.IP_TOOL} link set {config.BRIDGE_NAME} down"
     run.run_cmd(host, down_cmd)
 
     # remove bridge device
-    del_cmd = f"{ip_tool} link del name {config.BRIDGE_NAME} type bridge"
+    del_cmd = f"{config.IP_TOOL} link del name {config.BRIDGE_NAME} " \
+        "type bridge"
     run.run_cmd(host, del_cmd)
 
 
@@ -164,10 +164,9 @@ def _create_if_up_script() -> None:
     host = ""
 
     # create script
-    ip_tool = "/usr/bin/ip"
     script = f"""#!/bin/bash
 
-IP={ip_tool}
+IP={config.IP_TOOL}
 BRIDGE={config.BRIDGE_NAME}
 TAP=\\$1
 
@@ -192,10 +191,9 @@ def _create_if_down_script() -> None:
     host = ""
 
     # create script
-    ip_tool = "/usr/bin/ip"
     script = f"""#!/bin/bash
 
-IP={ip_tool}
+IP={config.IP_TOOL}
 TAP=\\$1
 
 # remove tap interface from bridge
