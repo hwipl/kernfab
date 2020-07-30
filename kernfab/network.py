@@ -12,7 +12,6 @@ def _start_bridge() -> None:
 
     host = ""
     ip_tool = "/usr/bin/ip"
-    bridge_ip = "172.23.32.1/24"
 
     # add bridge device
     add_cmd = f"{ip_tool} link add name {config.BRIDGE_NAME} type bridge"
@@ -27,7 +26,8 @@ def _start_bridge() -> None:
     run.run_cmd(host, promisc_cmd)
 
     # set ip address on bridge device
-    ip_cmd = f"{ip_tool} address add {bridge_ip} dev {config.BRIDGE_NAME}"
+    ip_cmd = f"{ip_tool} address add {config.BRIDGE_IP}/" \
+        f"{config.BRIDGE_IP_PREFIX_LEN} dev {config.BRIDGE_NAME}"
     run.run_cmd(host, ip_cmd)
 
 
@@ -38,10 +38,10 @@ def _stop_bridge() -> None:
 
     host = ""
     ip_tool = "/usr/bin/ip"
-    bridge_ip = "172.23.32.1/24"
 
     # remove ip from bridge device
-    ip_cmd = f"{ip_tool} address del {bridge_ip} dev {config.BRIDGE_NAME}"
+    ip_cmd = f"{ip_tool} address del {config.BRIDGE_IP}/" \
+        f"{config.BRIDGE_IP_PREFIX_LEN} dev {config.BRIDGE_NAME}"
     run.run_cmd(host, ip_cmd)
 
     # turn promiscuous mode of on bridge device
@@ -66,7 +66,7 @@ def _start_dnsmasq() -> None:
     dnsmasq_tool = "/usr/bin/dnsmasq"
     pid_file = "/tmp/kernfab_vm_bridge_dnsmasq.pid"
     bridge_ip_range = "172.23.32.10,172.23.32.254"
-    bridge_routes = "0.0.0.0/0,172.23.32.1"
+    bridge_routes = f"0.0.0.0/0,{config.BRIDGE_IP}"
     cmd = f"{dnsmasq_tool} " \
         f"--interface={config.BRIDGE_NAME} " \
         "--bind-interfaces " \

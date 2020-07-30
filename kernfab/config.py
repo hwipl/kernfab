@@ -21,3 +21,5 @@ VM_IF_DOWN_SCRIPT = "vm_if_down_script.sh"
 
 # network settings
 BRIDGE_NAME = "kernfabbr0"
+BRIDGE_IP = "172.23.32.1"
+BRIDGE_IP_PREFIX_LEN = "24"
