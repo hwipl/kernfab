@@ -19,7 +19,7 @@ def _install_sub_image_kernel(kernel_version: str) -> None:
     run.run_cmd(install_host, cmd)
 
     # rename/copy installed kernel
-    cmd = f"cp {mount_dir}/boot/vmlinuz-{kernel_version} " \
+    cmd = f"{config.CP_TOOL} {mount_dir}/boot/vmlinuz-{kernel_version} " \
         f"{mount_dir}{config.INSTALL_DEST_KERNEL}"
     run.run_cmd(install_host, cmd)
 
