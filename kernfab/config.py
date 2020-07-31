@@ -19,6 +19,7 @@ QEMU_IMG_MOUNT_DIR = "kernfab-qemu-img-mount"
 
 # install settings
 INSTALL_DEST_KERNEL = "/boot/vmlinuz-linux"
+INSTALL_DEST_INITRD = "/boot/initramfs-linux.img"
 
 # vm settings
 NUM_VMS = 2
