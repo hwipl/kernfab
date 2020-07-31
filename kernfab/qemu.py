@@ -110,7 +110,7 @@ def run_vm(vm_image: str, vm_id: int) -> None:
 
     vm_tap = config.vm_get_tap(vm_id)
     options = "-enable-kvm " \
-        "-m 512 " \
+        f"-m {config.VM_MEM_SIZE} " \
         "-daemonize " \
         f"-vnc 127.0.0.1:{vm_id} " \
         f"-drive discard=unmap,cache=none,file={vm_image},if=virtio " \
