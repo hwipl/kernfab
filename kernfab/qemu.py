@@ -52,7 +52,8 @@ def mount_image(file_name: str) -> None:
     run.run_ok(mnt_host, mod_cmd)
 
     # setup network block device
-    nbd_cmd = f"qemu-nbd --connect={config.QEMU_IMG_NBD_DEV} {file_name}"
+    nbd_cmd = f"{config.QEMU_NBD_TOOL} --connect={config.QEMU_IMG_NBD_DEV} " \
+        f"{file_name}"
     print(f"Creating nbd {config.QEMU_IMG_NBD_DEV}")
     run.run_background(mnt_host, nbd_cmd)
 
@@ -84,7 +85,7 @@ def umount_image() -> None:
     run.run_cmd(mnt_host, mnt_cmd)
 
     # close network block device
-    nbd_cmd = f"qemu-nbd --disconnect {config.QEMU_IMG_NBD_DEV}"
+    nbd_cmd = f"{config.QEMU_NBD_TOOL} --disconnect {config.QEMU_IMG_NBD_DEV}"
     print(f"Disconnecting nbd {config.QEMU_IMG_NBD_DEV}")
     run.run_cmd(mnt_host, nbd_cmd)
 
