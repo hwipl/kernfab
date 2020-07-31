@@ -116,7 +116,8 @@ def run_vm(vm_image: str, vm_id: str) -> None:
         f"-netdev tap,id=net0,ifname={vm_tap}," \
         f"script={config.VM_IF_UP_SCRIPT}," \
         f"downscript={config.VM_IF_DOWN_SCRIPT} " \
-        f"-device virtio-net-pci,netdev=net0,mac=52:54:00:00:00:1{vm_id} " \
+        f"-device virtio-net-pci,netdev=net0," \
+        f"mac={config.vm_get_mac(int(vm_id))} " \
         "-object rng-random,filename=/dev/urandom,id=rng0 " \
         "-device virtio-rng-pci,rng=rng0 " \
         f"-monitor unix:vm{vm_id}.sock,server,nowait"

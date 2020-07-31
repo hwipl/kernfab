@@ -77,7 +77,7 @@ def _start_dnsmasq() -> None:
         return
 
     for i in range(config.NUM_VMS):
-        mac_to_ip = f"52:54:00:00:00:1{i},172.23.32.1{i}"
+        mac_to_ip = f"{config.vm_get_mac(i)},172.23.32.1{i}"
         cmd += f" --dhcp-host={mac_to_ip}"
 
     print(cmd)
