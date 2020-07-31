@@ -133,7 +133,7 @@ def _remove_vm_sockfile(vm_id: int) -> None:
 
     host = ""
     vm_sock = config.vm_get_sockfile(vm_id)
-    cmd = f"rm {vm_sock}"
+    cmd = f"{config.RM_TOOL} {vm_sock}"
     run.run_cmd(host, cmd)
 
 
