@@ -12,9 +12,9 @@ BUILDJOBS = 32
 QEMU = "qemu-system-x86_64"
 
 # qemu image settings
-QEMU_BASEIMG_NAME = "qemu-base.img"
+QEMU_IMG_PREFIX = "kernfab-qemu-img"
+QEMU_IMG_SUFFIX = ".qcow2"
 QEMU_BASEIMG_SIZE = "20G"
-QEMU_SUBIMG_NAME = "qemu-sub.img"
 
 # vm settings
 NUM_VMS = 2
@@ -35,6 +35,22 @@ BRIDGE_NAME = "kernfabbr0"
 BRIDGE_IP = "172.23.32.1"
 BRIDGE_IP_NET = "172.23.32.0"
 BRIDGE_IP_PREFIX_LEN = "24"
+
+
+def qemu_get_base_image() -> str:
+    """
+    Get the name of the qemu base image
+    """
+
+    return QEMU_IMG_PREFIX + "-base" + QEMU_IMG_SUFFIX
+
+
+def qemu_get_vm_image(vm_id: int) -> str:
+    """
+    Get the name of the qemu image identified by vm_id
+    """
+
+    return QEMU_IMG_PREFIX + "-vm" + str(vm_id) + QEMU_IMG_SUFFIX
 
 
 def vm_get_mac(vm_id: int) -> str:

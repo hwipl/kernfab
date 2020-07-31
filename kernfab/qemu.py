@@ -12,7 +12,7 @@ def create_base_image() -> None:
     """
 
     image_host = ""
-    file_name = config.QEMU_BASEIMG_NAME
+    file_name = config.qemu_get_base_image()
 
     # stop if file already exists
     if run.run_ok(image_host, f"ls {file_name}"):
@@ -32,8 +32,8 @@ def create_sub_image(name: str) -> None:
 
     image_host = ""
     file_format = "qcow2"
-    base_image = config.QEMU_BASEIMG_NAME
-    file_name = config.QEMU_SUBIMG_NAME
+    base_image = config.qemu_get_base_image()
+    file_name = config.qemu_get_vm_image(int(name))
     image_cmd = \
         f"qemu-img create -f {file_format} -b {base_image} {file_name}{name}"
     run.run_cmd(image_host, image_cmd)
@@ -177,7 +177,7 @@ def _qemu_base_image_mount() -> None:
     """
 
     print("Mount base image")
-    file_name = config.QEMU_BASEIMG_NAME
+    file_name = config.qemu_get_base_image()
     mount_image(file_name)
 
 
