@@ -90,7 +90,7 @@ def _stop_dnsmasq() -> None:
     """
 
     host = ""
-    cmd = f"kill $(cat {config.DNSMASQ_PID_FILE})"
+    cmd = f"kill $({config.CAT_TOOL} {config.DNSMASQ_PID_FILE})"
     run.run_cmd(host, cmd)
 
 
@@ -169,7 +169,8 @@ TAP=\\$1
 \\$IP link set \\"\\$TAP\\" promisc on
 \\$IP link set \\"\\$TAP\\" master \\$BRIDGE
 """
-    cat_cmd = f"cat <<-\\\"EOF\\\" > {config.VM_IF_UP_SCRIPT}\n{script}EOF"
+    cat_cmd = f"{config.CAT_TOOL} <<-\\\"EOF\\\" > " \
+        f"{config.VM_IF_UP_SCRIPT}\n{script}EOF"
     run.run_cmd(host, cat_cmd)
 
     # make script executable
@@ -195,7 +196,8 @@ TAP=\\$1
 \\$IP link set \\"\\$TAP\\" promisc off
 \\$IP link set \\"\\$TAP\\" down
 """
-    cat_cmd = f"cat <<-\\\"EOF\\\" > {config.VM_IF_DOWN_SCRIPT}\n{script}EOF"
+    cat_cmd = f"{config.CAT_TOOL} <<-\\\"EOF\\\" > " \
+        f"{config.VM_IF_DOWN_SCRIPT}\n{script}EOF"
     run.run_cmd(host, cat_cmd)
 
     # make script executable
