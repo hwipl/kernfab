@@ -57,8 +57,7 @@ def mount_image(file_name: str) -> None:
     run.run_background(mnt_host, nbd_cmd)
 
     # make sure nbd partition is ready
-    nbd_part = "/dev/nbd0p1"
-    run.run_try(mnt_host, f"{config.LS_TOOL} {nbd_part}", 10)
+    run.run_try(mnt_host, f"{config.LS_TOOL} {config.QEMU_IMG_NBD_PART}", 10)
 
     # make sure mount directory exists
     mnt_dir = config.QEMU_IMG_MOUNT_DIR
@@ -66,8 +65,8 @@ def mount_image(file_name: str) -> None:
     run.run_ok(mnt_host, mkdir_cmd)
 
     # mount nbd partition
-    mnt_cmd = f"mount {nbd_part} {mnt_dir}"
-    print(f"Mounting partition {nbd_part}")
+    mnt_cmd = f"mount {config.QEMU_IMG_NBD_PART} {mnt_dir}"
+    print(f"Mounting partition {config.QEMU_IMG_NBD_PART}")
     run.run_cmd(mnt_host, mnt_cmd)
 
 
