@@ -62,7 +62,7 @@ def mount_image(file_name: str) -> None:
 
     # make sure mount directory exists
     mnt_dir = config.QEMU_IMG_MOUNT_DIR
-    mkdir_cmd = f"mkdir {mnt_dir}"
+    mkdir_cmd = f"{config.MKDIR_TOOL} {mnt_dir}"
     run.run_ok(mnt_host, mkdir_cmd)
 
     # mount nbd partition
