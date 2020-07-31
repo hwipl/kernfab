@@ -15,7 +15,7 @@ def _install_sub_image_kernel(kernel_version: str) -> None:
 
     # extract kernel archive to mounted vm image
     kernel_archive = f"linux-{kernel_version}-x86.tar.xz"
-    cmd = f"tar xvfJ {kernel_archive} -C {mount_dir}"
+    cmd = f"{config.TAR_TOOL} xvfJ {kernel_archive} -C {mount_dir}"
     run.run_cmd(install_host, cmd)
 
     # rename/copy installed kernel

@@ -18,6 +18,7 @@ QEMU_IMG_SIZE = "20G"
 QEMU_IMG_MOUNT_DIR = "kernfab-qemu-img-mount"
 
 # install settings
+TAR_TOOL = "/usr/bin/tar"
 INSTALL_DEST_KERNEL = "/boot/vmlinuz-linux"
 INSTALL_DEST_INITRD = "/boot/initramfs-linux.img"
 
