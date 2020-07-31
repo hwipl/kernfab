@@ -63,14 +63,13 @@ def _start_dnsmasq() -> None:
     """
 
     host = ""
-    pid_file = "/tmp/kernfab_vm_bridge_dnsmasq.pid"
     bridge_ip_range = "172.23.32.10,172.23.32.254"
     bridge_routes = f"0.0.0.0/0,{config.BRIDGE_IP}"
     cmd = f"{config.DNSMASQ_TOOL} " \
         f"--interface={config.BRIDGE_NAME} " \
         "--bind-interfaces " \
         "--except-interface=lo " \
-        f"--pid-file={pid_file} " \
+        f"--pid-file={config.DNSMASQ_PID_FILE} " \
         f"--dhcp-range={bridge_ip_range} " \
         f"--dhcp-option=option:classless-static-route,{bridge_routes}"
 
@@ -92,8 +91,7 @@ def _stop_dnsmasq() -> None:
     """
 
     host = ""
-    pid_file = "/tmp/kernfab_vm_bridge_dnsmasq.pid"
-    cmd = f"kill $(cat {pid_file})"
+    cmd = f"kill $(cat {config.DNSMASQ_PID_FILE})"
     run.run_cmd(host, cmd)
 
 
