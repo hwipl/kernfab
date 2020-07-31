@@ -146,7 +146,7 @@ def stop_vm(vm_id: int) -> None:
     host = ""
     vm_sock = config.vm_get_sockfile(vm_id)
     if run.run_ok(host, f"{config.LS_TOOL} {vm_sock}"):
-        cmd = f"echo \"system_powerdown\" | nc -U \"{vm_sock}\""
+        cmd = f"{config.ECHO_TOOL} \"system_powerdown\" | nc -U \"{vm_sock}\""
         run.run_cmd(host, cmd)
         _remove_vm_sockfile(vm_id)
 
@@ -159,7 +159,7 @@ def quit_vm(vm_id: int) -> None:
     host = ""
     vm_sock = config.vm_get_sockfile(vm_id)
     if run.run_ok(host, f"{config.LS_TOOL} {vm_sock}"):
-        cmd = f"echo \"quit\" | nc -U \"{vm_sock}\""
+        cmd = f"{config.ECHO_TOOL} \"quit\" | nc -U \"{vm_sock}\""
         run.run_cmd(host, cmd)
         _remove_vm_sockfile(vm_id)
 
