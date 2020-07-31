@@ -99,7 +99,8 @@ def run_vm(vm_image: str, vm_id: int) -> None:
     host = ""
 
     # check if vm is already running
-    if run.run_ok(host, f"ls vm{vm_id}.sock"):
+    vm_sock = config.vm_get_sockfile(vm_id)
+    if run.run_ok(host, f"ls {vm_sock}"):
         print("VM seems to be running already")
         return
 
@@ -120,7 +121,7 @@ def run_vm(vm_image: str, vm_id: int) -> None:
         f"mac={config.vm_get_mac(int(vm_id))} " \
         "-object rng-random,filename=/dev/urandom,id=rng0 " \
         "-device virtio-rng-pci,rng=rng0 " \
-        f"-monitor unix:vm{vm_id}.sock,server,nowait"
+        f"-monitor unix:{vm_sock},server,nowait"
     vm_cmd = f"{config.QEMU} {options}"
     print(vm_cmd)
     run.run_background(host, vm_cmd)
@@ -132,7 +133,8 @@ def _remove_vm_sockfile(vm_id: int) -> None:
     """
 
     host = ""
-    cmd = f"rm vm{vm_id}.sock"
+    vm_sock = config.vm_get_sockfile(vm_id)
+    cmd = f"rm {vm_sock}"
     run.run_cmd(host, cmd)
 
 
@@ -142,7 +144,7 @@ def stop_vm(vm_id: int) -> None:
     """
 
     host = ""
-    vm_sock = f"vm{vm_id}.sock"
+    vm_sock = config.vm_get_sockfile(vm_id)
     if run.run_ok(host, f"ls {vm_sock}"):
         cmd = f"echo \"system_powerdown\" | nc -U \"{vm_sock}\""
         run.run_cmd(host, cmd)
@@ -155,7 +157,7 @@ def quit_vm(vm_id: int) -> None:
     """
 
     host = ""
-    vm_sock = f"vm{vm_id}.sock"
+    vm_sock = config.vm_get_sockfile(vm_id)
     if run.run_ok(host, f"ls {vm_sock}"):
         cmd = f"echo \"quit\" | nc -U \"{vm_sock}\""
         run.run_cmd(host, cmd)

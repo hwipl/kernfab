@@ -22,6 +22,7 @@ NUM_VMS = 2
 VM_TAP_NAME = "kernfabvm"
 VM_IF_UP_SCRIPT = "vm_if_up_script.sh"
 VM_IF_DOWN_SCRIPT = "vm_if_down_script.sh"
+VM_SOCK_FILE_PREFIX = "kernfab-sockfile-vm"
 VM_MAC_START = "52:54:00:00:00:10"
 VM_IP_START = "172.23.32.10"
 
@@ -52,6 +53,14 @@ def qemu_get_vm_image(vm_id: int) -> str:
     """
 
     return QEMU_IMG_PREFIX + "-vm" + str(vm_id) + QEMU_IMG_SUFFIX
+
+
+def vm_get_sockfile(vm_id: int) -> str:
+    """
+    Get the sockfile for vm with id vm_id
+    """
+
+    return VM_SOCK_FILE_PREFIX + str(vm_id) + ".sock"
 
 
 def vm_get_mac(vm_id: int) -> str:
