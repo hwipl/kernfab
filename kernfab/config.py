@@ -8,9 +8,6 @@ import ipaddress
 # number of simultaneous build jobs to run
 BUILDJOBS = 32
 
-# name of qemu executable
-QEMU = "qemu-system-x86_64"
-
 # qemu settings
 LS_TOOL = "/usr/bin/ls"
 ECHO_TOOL = "/usr/bin/echo"
@@ -19,6 +16,7 @@ MKDIR_TOOL = "/usr/bin/mkdir"
 MOUNT_TOOL = "/usr/bin/mount"
 UMOUNT_TOOL = "/usr/bin/umount"
 RM_TOOL = "/usr/bin/rm"
+QEMU_TOOL = "/usr/bin/qemu-system-x86_64"
 QEMU_NBD_TOOL = "/usr/bin/qemu-nbd"
 QEMU_IMG_TOOL = "/usr/bin/qemu-img"
 QEMU_IMG_PREFIX = "kernfab-qemu-img"

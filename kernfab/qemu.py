@@ -121,7 +121,7 @@ def run_vm(vm_image: str, vm_id: int) -> None:
         "-object rng-random,filename=/dev/urandom,id=rng0 " \
         "-device virtio-rng-pci,rng=rng0 " \
         f"-monitor unix:{vm_sock},server,nowait"
-    vm_cmd = f"{config.QEMU} {options}"
+    vm_cmd = f"{config.QEMU_TOOL} {options}"
     print(vm_cmd)
     run.run_background(host, vm_cmd)
 
