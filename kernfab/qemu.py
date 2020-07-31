@@ -25,17 +25,17 @@ def create_base_image() -> None:
     run.run_cmd(image_host, image_cmd)
 
 
-def create_sub_image(name: str) -> None:
+def create_vm_image(vm_id: int) -> None:
     """
-    Create a sub vm image that is based on a base image
+    Create a vm image that is based on a base image
     """
 
     image_host = ""
     file_format = "qcow2"
     base_image = config.qemu_get_base_image()
-    file_name = config.qemu_get_vm_image(int(name))
+    file_name = config.qemu_get_vm_image(vm_id)
     image_cmd = \
-        f"qemu-img create -f {file_format} -b {base_image} {file_name}{name}"
+        f"qemu-img create -f {file_format} -b {base_image} {file_name}"
     run.run_cmd(image_host, image_cmd)
 
 
