@@ -22,6 +22,7 @@ VM_IF_DOWN_SCRIPT = "vm_if_down_script.sh"
 # network settings
 IP_TOOL = "/usr/bin/ip"
 DNSMASQ_TOOL = "/usr/bin/dnsmasq"
+SYSCTL_TOOL = "/usr/bin/sysctl"
 DNSMASQ_PID_FILE = "/tmp/kernfab_vm_bridge_dnsmasq.pid"
 DNSMASQ_DHCP_IP_RANGE = "172.23.32.20,172.23.32.254"
 BRIDGE_NAME = "kernfabbr0"

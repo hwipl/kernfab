@@ -102,8 +102,8 @@ def _start_nat() -> None:
     host = ""
 
     # enable ip forwarding
-    sysctl_tool = "/usr/bin/sysctl"
-    fwd_cmd = f"{sysctl_tool} net.ipv4.conf.{config.BRIDGE_NAME}.forwarding=1"
+    fwd_cmd = f"{config.SYSCTL_TOOL} " \
+        f"net.ipv4.conf.{config.BRIDGE_NAME}.forwarding=1"
     run.run_cmd(host, fwd_cmd)
 
     # enable nat
@@ -131,8 +131,8 @@ def _stop_nat() -> None:
     host = ""
 
     # disable ip forwarding
-    sysctl_tool = "/usr/bin/sysctl"
-    fwd_cmd = f"{sysctl_tool} net.ipv4.conf.{config.BRIDGE_NAME}.forwarding=0"
+    fwd_cmd = f"{config.SYSCTL_TOOL} " \
+        f"net.ipv4.conf.{config.BRIDGE_NAME}.forwarding=0"
     run.run_cmd(host, fwd_cmd)
 
     # disable nat
