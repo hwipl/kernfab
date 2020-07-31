@@ -107,18 +107,17 @@ def _start_nat() -> None:
     run.run_cmd(host, fwd_cmd)
 
     # enable nat
-    iptables_tool = "/usr/bin/iptables"
     prefix = "172.23.32.0/24"
-    masq_cmd = f"{iptables_tool} -t nat -A POSTROUTING -s {prefix} " \
+    masq_cmd = f"{config.IPTABLES_TOOL} -t nat -A POSTROUTING -s {prefix} " \
         "-j MASQUERADE"
     run.run_cmd(host, masq_cmd)
 
-    out_cmd = f"{iptables_tool} -A FORWARD -m conntrack " \
+    out_cmd = f"{config.IPTABLES_TOOL} -A FORWARD -m conntrack " \
         f"--ctstate RELATED,ESTABLISHED -o {config.BRIDGE_NAME} -d {prefix} " \
         "-j ACCEPT"
     run.run_cmd(host, out_cmd)
 
-    in_cmd = f"{iptables_tool} -A FORWARD -i {config.BRIDGE_NAME} " \
+    in_cmd = f"{config.IPTABLES_TOOL} -A FORWARD -i {config.BRIDGE_NAME} " \
         f"-s {prefix} -j ACCEPT"
     run.run_cmd(host, in_cmd)
 
@@ -136,18 +135,17 @@ def _stop_nat() -> None:
     run.run_cmd(host, fwd_cmd)
 
     # disable nat
-    iptables_tool = "/usr/bin/iptables"
     prefix = "172.23.32.0/24"
-    masq_cmd = f"{iptables_tool} -t nat -D POSTROUTING -s {prefix} " \
+    masq_cmd = f"{config.IPTABLES_TOOL} -t nat -D POSTROUTING -s {prefix} " \
         "-j MASQUERADE"
     run.run_cmd(host, masq_cmd)
 
-    out_cmd = f"{iptables_tool} -D FORWARD -m conntrack " \
+    out_cmd = f"{config.IPTABLES_TOOL} -D FORWARD -m conntrack " \
         f"--ctstate RELATED,ESTABLISHED -o {config.BRIDGE_NAME} -d {prefix} " \
         "-j ACCEPT"
     run.run_cmd(host, out_cmd)
 
-    in_cmd = f"{iptables_tool} -D FORWARD -i {config.BRIDGE_NAME} " \
+    in_cmd = f"{config.IPTABLES_TOOL} -D FORWARD -i {config.BRIDGE_NAME} " \
         f"-s {prefix} -j ACCEPT"
     run.run_cmd(host, in_cmd)
 
