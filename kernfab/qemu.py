@@ -15,7 +15,7 @@ def create_base_image() -> None:
     file_name = config.qemu_get_base_image()
 
     # stop if file already exists
-    if run.run_ok(image_host, f"ls {file_name}"):
+    if run.run_ok(image_host, f"{config.LS_TOOL} {file_name}"):
         print("File already exists")
         return
 
@@ -58,7 +58,7 @@ def mount_image(file_name: str) -> None:
 
     # make sure nbd partition is ready
     nbd_part = "/dev/nbd0p1"
-    run.run_try(mnt_host, f"ls {nbd_part}", 10)
+    run.run_try(mnt_host, f"{config.LS_TOOL} {nbd_part}", 10)
 
     # make sure mount directory exists
     mnt_dir = config.QEMU_IMG_MOUNT_DIR
@@ -100,7 +100,7 @@ def run_vm(vm_image: str, vm_id: int) -> None:
 
     # check if vm is already running
     vm_sock = config.vm_get_sockfile(vm_id)
-    if run.run_ok(host, f"ls {vm_sock}"):
+    if run.run_ok(host, f"{config.LS_TOOL} {vm_sock}"):
         print("VM seems to be running already")
         return
 
@@ -145,7 +145,7 @@ def stop_vm(vm_id: int) -> None:
 
     host = ""
     vm_sock = config.vm_get_sockfile(vm_id)
-    if run.run_ok(host, f"ls {vm_sock}"):
+    if run.run_ok(host, f"{config.LS_TOOL} {vm_sock}"):
         cmd = f"echo \"system_powerdown\" | nc -U \"{vm_sock}\""
         run.run_cmd(host, cmd)
         _remove_vm_sockfile(vm_id)
@@ -158,7 +158,7 @@ def quit_vm(vm_id: int) -> None:
 
     host = ""
     vm_sock = config.vm_get_sockfile(vm_id)
-    if run.run_ok(host, f"ls {vm_sock}"):
+    if run.run_ok(host, f"{config.LS_TOOL} {vm_sock}"):
         cmd = f"echo \"quit\" | nc -U \"{vm_sock}\""
         run.run_cmd(host, cmd)
         _remove_vm_sockfile(vm_id)
