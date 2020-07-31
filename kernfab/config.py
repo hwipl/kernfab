@@ -14,6 +14,7 @@ QEMU = "qemu-system-x86_64"
 # qemu settings
 LS_TOOL = "/usr/bin/ls"
 ECHO_TOOL = "/usr/bin/echo"
+MODPROBE_TOOL = "/usr/bin/modprobe"
 QEMU_IMG_TOOL = "/usr/bin/qemu-img"
 QEMU_IMG_PREFIX = "kernfab-qemu-img"
 QEMU_IMG_SUFFIX = ".qcow2"

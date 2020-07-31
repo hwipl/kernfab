@@ -48,7 +48,7 @@ def mount_image(file_name: str) -> None:
     mnt_host = ""
 
     # make sure nbd module is loaded
-    mod_cmd = "modprobe nbd"
+    mod_cmd = f"{config.MODPROBE_TOOL} nbd"
     run.run_ok(mnt_host, mod_cmd)
 
     # setup network block device
