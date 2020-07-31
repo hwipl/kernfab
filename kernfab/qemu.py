@@ -61,7 +61,7 @@ def mount_image(file_name: str) -> None:
     run.run_try(mnt_host, f"ls {nbd_part}", 10)
 
     # make sure mount directory exists
-    mnt_dir = "vm-mount"
+    mnt_dir = config.QEMU_IMG_MOUNT_DIR
     mkdir_cmd = f"mkdir {mnt_dir}"
     run.run_ok(mnt_host, mkdir_cmd)
 
@@ -79,7 +79,7 @@ def umount_image() -> None:
     mnt_host = ""
 
     # umount nbd partition
-    mnt_dir = "vm-mount"
+    mnt_dir = config.QEMU_IMG_MOUNT_DIR
     mnt_cmd = f"umount {mnt_dir}"
     print(f"Umounting dir {mnt_dir}")
     run.run_cmd(mnt_host, mnt_cmd)

@@ -15,6 +15,7 @@ QEMU = "qemu-system-x86_64"
 QEMU_IMG_PREFIX = "kernfab-qemu-img"
 QEMU_IMG_SUFFIX = ".qcow2"
 QEMU_IMG_SIZE = "20G"
+QEMU_IMG_MOUNT_DIR = "kernfab-qemu-img-mount"
 
 # vm settings
 NUM_VMS = 2

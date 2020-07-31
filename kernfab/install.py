@@ -10,7 +10,7 @@ def _install_sub_image_kernel(kernel_version: str) -> None:
     Install kernel in sub image
     """
 
-    mount_dir = "vm-mount"
+    mount_dir = config.QEMU_IMG_MOUNT_DIR
     install_host = ""
 
     # extract kernel archive to mounted vm image
