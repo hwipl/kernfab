@@ -24,7 +24,8 @@ def _install_sub_image_kernel(kernel_version: str) -> None:
     run.run_cmd(install_host, cmd)
 
     # create initramfs for kernel
-    cmd = f"mkinitcpio -g {mount_dir}{config.INSTALL_DEST_INITRD} " \
+    cmd = f"{config.MKINITCPIO_TOOL} " \
+        f"-g {mount_dir}{config.INSTALL_DEST_INITRD} " \
         f"-k {kernel_version} -r {mount_dir} -S autodetect"
     run.run_cmd(install_host, cmd)
 
