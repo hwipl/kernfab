@@ -17,6 +17,9 @@ QEMU_IMG_SUFFIX = ".qcow2"
 QEMU_IMG_SIZE = "20G"
 QEMU_IMG_MOUNT_DIR = "kernfab-qemu-img-mount"
 
+# install settings
+INSTALL_DEST_KERNEL = "/boot/vmlinuz-linux"
+
 # vm settings
 NUM_VMS = 2
 VM_MEM_SIZE = "512"

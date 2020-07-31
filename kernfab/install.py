@@ -20,7 +20,7 @@ def _install_sub_image_kernel(kernel_version: str) -> None:
 
     # rename/copy installed kernel
     cmd = f"cp {mount_dir}/boot/vmlinuz-{kernel_version} " \
-        f"{mount_dir}/boot/vmlinuz-linux"
+        f"{mount_dir}{config.INSTALL_DEST_KERNEL}"
     run.run_cmd(install_host, cmd)
 
     # create initramfs for kernel
