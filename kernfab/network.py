@@ -107,7 +107,7 @@ def _start_nat() -> None:
     run.run_cmd(host, fwd_cmd)
 
     # enable nat
-    prefix = "172.23.32.0/24"
+    prefix = f"{config.BRIDGE_IP_NET}/{config.BRIDGE_IP_PREFIX_LEN}"
     masq_cmd = f"{config.IPTABLES_TOOL} -t nat -A POSTROUTING -s {prefix} " \
         "-j MASQUERADE"
     run.run_cmd(host, masq_cmd)
@@ -135,7 +135,7 @@ def _stop_nat() -> None:
     run.run_cmd(host, fwd_cmd)
 
     # disable nat
-    prefix = "172.23.32.0/24"
+    prefix = f"{config.BRIDGE_IP_NET}/{config.BRIDGE_IP_PREFIX_LEN}"
     masq_cmd = f"{config.IPTABLES_TOOL} -t nat -D POSTROUTING -s {prefix} " \
         "-j MASQUERADE"
     run.run_cmd(host, masq_cmd)
