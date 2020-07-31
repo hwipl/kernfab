@@ -13,10 +13,9 @@ def start(base_image: bool = False) -> None:
     network.start()
     if base_image:
         vm_image = config.qemu_get_base_image()
-        vm_id = "0"
+        vm_id = 0
         qemu.run_vm(vm_image, vm_id)
     else:
-        for name in range(config.NUM_VMS):
-            vm_image = config.qemu_get_vm_image(name)
-            vm_id = f"{name}"
+        for vm_id in range(config.NUM_VMS):
+            vm_image = config.qemu_get_vm_image(vm_id)
             qemu.run_vm(vm_image, vm_id)

@@ -91,7 +91,7 @@ def umount_image() -> None:
     run.run_cmd(mnt_host, nbd_cmd)
 
 
-def run_vm(vm_image: str, vm_id: str) -> None:
+def run_vm(vm_image: str, vm_id: int) -> None:
     """
     Run a VM
     """
@@ -107,7 +107,7 @@ def run_vm(vm_image: str, vm_id: str) -> None:
         print("invalid VM ID")
         return
 
-    vm_tap = config.VM_TAP_NAME + vm_id
+    vm_tap = config.VM_TAP_NAME + str(vm_id)
     options = "-enable-kvm " \
         "-m 512 " \
         "-daemonize " \
@@ -126,7 +126,7 @@ def run_vm(vm_image: str, vm_id: str) -> None:
     run.run_background(host, vm_cmd)
 
 
-def _remove_vm_sockfile(vm_id: str) -> None:
+def _remove_vm_sockfile(vm_id: int) -> None:
     """
     Delete sockfile of vm
     """
@@ -136,7 +136,7 @@ def _remove_vm_sockfile(vm_id: str) -> None:
     run.run_cmd(host, cmd)
 
 
-def stop_vm(vm_id: str) -> None:
+def stop_vm(vm_id: int) -> None:
     """
     Stop a VM
     """
@@ -149,7 +149,7 @@ def stop_vm(vm_id: str) -> None:
         _remove_vm_sockfile(vm_id)
 
 
-def quit_vm(vm_id: str) -> None:
+def quit_vm(vm_id: int) -> None:
     """
     Quit a VM (force stop)
     """

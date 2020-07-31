@@ -10,8 +10,7 @@ def stop(is_quit: bool) -> None:
     Stop kernel VM(s)
     """
 
-    for name in range(config.NUM_VMS):
-        vm_id = f"{name}"
+    for vm_id in range(config.NUM_VMS):
         if is_quit:
             qemu.quit_vm(vm_id)
         else:
