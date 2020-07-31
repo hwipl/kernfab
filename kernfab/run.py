@@ -7,13 +7,15 @@ import time
 import invoke                   # type: ignore
 from fabric import Connection   # type: ignore
 
+from kernfab import config
+
 
 def _run_cmd(host: str, cmd: str, hide=False) -> invoke.runners.Result:
     """
     Helper for running commands
     """
 
-    cmd = f"bash -l -c \"{cmd}\""
+    cmd = f"{config.BASH_TOOL} -l -c \"{cmd}\""
     if host == "":
         result = invoke.run(cmd, warn=True, hide=hide)
     else:
@@ -60,7 +62,7 @@ def run_background(host: str, cmd: str) -> None:
     Run a command in the background
     """
 
-    cmd = f"bash -l -c \"{cmd}\""
+    cmd = f"{config.BASH_TOOL} -l -c \"{cmd}\""
     if host == "":
         invoke.run(cmd, warn=True, disown=True)
     else:

@@ -8,6 +8,9 @@ import ipaddress
 # number of simultaneous build jobs to run
 BUILDJOBS = 32
 
+# bash settings
+BASH_TOOL = "/usr/bin/bash"
+
 # qemu settings
 LS_TOOL = "/usr/bin/ls"
 ECHO_TOOL = "/usr/bin/echo"
