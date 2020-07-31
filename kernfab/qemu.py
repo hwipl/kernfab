@@ -20,7 +20,7 @@ def create_base_image() -> None:
         return
 
     file_format = "qcow2"
-    file_size = config.QEMU_BASEIMG_SIZE
+    file_size = config.QEMU_IMG_SIZE
     image_cmd = f"qemu-img create -f {file_format} {file_name} {file_size}"
     run.run_cmd(image_host, image_cmd)
 
