@@ -21,7 +21,8 @@ def create_base_image() -> None:
 
     file_format = "qcow2"
     file_size = config.QEMU_IMG_SIZE
-    image_cmd = f"qemu-img create -f {file_format} {file_name} {file_size}"
+    image_cmd = f"{config.QEMU_IMG_TOOL} create -f {file_format} " \
+        f"{file_name} {file_size}"
     run.run_cmd(image_host, image_cmd)
 
 
@@ -34,8 +35,8 @@ def create_vm_image(vm_id: int) -> None:
     file_format = "qcow2"
     base_image = config.qemu_get_base_image()
     file_name = config.qemu_get_vm_image(vm_id)
-    image_cmd = \
-        f"qemu-img create -f {file_format} -b {base_image} {file_name}"
+    image_cmd = f"{config.QEMU_IMG_TOOL} create -f {file_format} " \
+        f"-b {base_image} {file_name}"
     run.run_cmd(image_host, image_cmd)
 
 

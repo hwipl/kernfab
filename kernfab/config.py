@@ -11,9 +11,10 @@ BUILDJOBS = 32
 # name of qemu executable
 QEMU = "qemu-system-x86_64"
 
-# qemu image settings
+# qemu settings
 LS_TOOL = "/usr/bin/ls"
 ECHO_TOOL = "/usr/bin/echo"
+QEMU_IMG_TOOL = "/usr/bin/qemu-img"
 QEMU_IMG_PREFIX = "kernfab-qemu-img"
 QEMU_IMG_SUFFIX = ".qcow2"
 QEMU_IMG_SIZE = "20G"
