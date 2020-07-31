@@ -90,7 +90,7 @@ def _stop_dnsmasq() -> None:
     """
 
     host = ""
-    cmd = f"kill $({config.CAT_TOOL} {config.DNSMASQ_PID_FILE})"
+    cmd = f"{config.KILL_TOOL} $({config.CAT_TOOL} {config.DNSMASQ_PID_FILE})"
     run.run_cmd(host, cmd)
 
 
