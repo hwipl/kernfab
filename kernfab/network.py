@@ -63,11 +63,10 @@ def _start_dnsmasq() -> None:
     """
 
     host = ""
-    dnsmasq_tool = "/usr/bin/dnsmasq"
     pid_file = "/tmp/kernfab_vm_bridge_dnsmasq.pid"
     bridge_ip_range = "172.23.32.10,172.23.32.254"
     bridge_routes = f"0.0.0.0/0,{config.BRIDGE_IP}"
-    cmd = f"{dnsmasq_tool} " \
+    cmd = f"{config.DNSMASQ_TOOL} " \
         f"--interface={config.BRIDGE_NAME} " \
         "--bind-interfaces " \
         "--except-interface=lo " \
