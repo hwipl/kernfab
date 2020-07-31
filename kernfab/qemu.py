@@ -104,7 +104,7 @@ def run_vm(vm_image: str, vm_id: int) -> None:
         print("VM seems to be running already")
         return
 
-    if vm_id not in ["0", "1", "2", "3", "4", "5", "6", "7", "8"]:
+    if vm_id > 8:
         print("invalid VM ID")
         return
 
