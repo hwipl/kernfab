@@ -66,7 +66,7 @@ def mount_image(file_name: str) -> None:
     run.run_ok(mnt_host, mkdir_cmd)
 
     # mount nbd partition
-    mnt_cmd = f"mount {config.QEMU_IMG_NBD_PART} {mnt_dir}"
+    mnt_cmd = f"{config.MOUNT_TOOL} {config.QEMU_IMG_NBD_PART} {mnt_dir}"
     print(f"Mounting partition {config.QEMU_IMG_NBD_PART}")
     run.run_cmd(mnt_host, mnt_cmd)
 
