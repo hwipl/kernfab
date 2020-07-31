@@ -63,14 +63,13 @@ def _start_dnsmasq() -> None:
     """
 
     host = ""
-    bridge_ip_range = "172.23.32.10,172.23.32.254"
     bridge_routes = f"0.0.0.0/0,{config.BRIDGE_IP}"
     cmd = f"{config.DNSMASQ_TOOL} " \
         f"--interface={config.BRIDGE_NAME} " \
         "--bind-interfaces " \
         "--except-interface=lo " \
         f"--pid-file={config.DNSMASQ_PID_FILE} " \
-        f"--dhcp-range={bridge_ip_range} " \
+        f"--dhcp-range={config.DNSMASQ_DHCP_IP_RANGE} " \
         f"--dhcp-option=option:classless-static-route,{bridge_routes}"
 
     if config.NUM_VMS > 8:
