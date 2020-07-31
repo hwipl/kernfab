@@ -19,6 +19,7 @@ QEMU_IMG_TOOL = "/usr/bin/qemu-img"
 QEMU_IMG_PREFIX = "kernfab-qemu-img"
 QEMU_IMG_SUFFIX = ".qcow2"
 QEMU_IMG_SIZE = "20G"
+QEMU_IMG_NBD_DEV = "/dev/nbd0"
 QEMU_IMG_MOUNT_DIR = "kernfab-qemu-img-mount"
 
 # install settings
