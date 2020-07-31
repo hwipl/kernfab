@@ -2,6 +2,9 @@
 Module for configuration/settings
 """
 
+import ipaddress
+
+
 # number of simultaneous build jobs to run
 BUILDJOBS = 32
 
@@ -19,6 +22,7 @@ VM_TAP_NAME = "kernfabvm"
 VM_IF_UP_SCRIPT = "vm_if_up_script.sh"
 VM_IF_DOWN_SCRIPT = "vm_if_down_script.sh"
 VM_MAC_START = "52:54:00:00:00:10"
+VM_IP_START = "172.23.32.10"
 
 # network settings
 IP_TOOL = "/usr/bin/ip"
@@ -45,3 +49,15 @@ def vm_get_mac(vm_id: int) -> str:
     new_mac = hex(int(base_mac, 16) + vm_id)[2:]
     mac = ":".join(new_mac[i:i+2] for i in range(0, len(new_mac), 2))
     return mac
+
+
+def vm_get_ip(vm_id: int) -> str:
+    """
+    Create a new ip address for vm with id vm_id
+    """
+
+    # use ipaddress module to convert vm ip start address to an ip address, add
+    # vm_id to it, and return it as string
+    start_ip = ipaddress.ip_address(VM_IP_START)
+    new_ip = str(start_ip + vm_id)
+    return new_ip
