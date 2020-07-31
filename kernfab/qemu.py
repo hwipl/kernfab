@@ -80,7 +80,7 @@ def umount_image() -> None:
 
     # umount nbd partition
     mnt_dir = config.QEMU_IMG_MOUNT_DIR
-    mnt_cmd = f"umount {mnt_dir}"
+    mnt_cmd = f"{config.UMOUNT_TOOL} {mnt_dir}"
     print(f"Umounting dir {mnt_dir}")
     run.run_cmd(mnt_host, mnt_cmd)
 
