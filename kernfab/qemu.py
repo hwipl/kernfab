@@ -108,7 +108,7 @@ def run_vm(vm_image: str, vm_id: int) -> None:
         print("invalid VM ID")
         return
 
-    vm_tap = config.VM_TAP_NAME + str(vm_id)
+    vm_tap = config.vm_get_tap(vm_id)
     options = "-enable-kvm " \
         "-m 512 " \
         "-daemonize " \

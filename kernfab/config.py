@@ -63,6 +63,14 @@ def vm_get_sockfile(vm_id: int) -> str:
     return VM_SOCK_FILE_PREFIX + str(vm_id) + ".sock"
 
 
+def vm_get_tap(vm_id: int) -> str:
+    """
+    Get the name of the tap device of vm with id vm_id
+    """
+
+    return VM_TAP_NAME + str(vm_id)
+
+
 def vm_get_mac(vm_id: int) -> str:
     """
     Create a new mac address for vm with id vm_id
