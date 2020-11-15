@@ -201,7 +201,7 @@ TAP=\\$1
     run.run_cmd(host, cat_cmd)
 
     # make script executable
-    chmod_cmd = f"config.CHMOD_TOOL +x {config.VM_IF_DOWN_SCRIPT}"
+    chmod_cmd = f"{config.CHMOD_TOOL} +x {config.VM_IF_DOWN_SCRIPT}"
     run.run_cmd(host, chmod_cmd)
 
 
